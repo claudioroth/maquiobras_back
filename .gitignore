@@ -1,0 +1,5 @@
+*.xlsm
+.venv
+.env
+venv
+env
