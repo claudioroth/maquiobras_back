@@ -9,7 +9,7 @@ from sqlalchemy.ext import mutable
 #from sqlalchemy_filters import apply_pagination
 import json
 from string import capwords
-from maquiobras.models import ControlModel, UserModel, ProductsModel
+from maquiobras.models import ControlModel, UserModel, ProductsModel, ProductsDetailModel
 import sys
 import traceback
 from datetime import datetime
@@ -78,5 +78,33 @@ class ControlResource(Resource, BaseSerializer):
                 traceback.print_exc(file=sys.stdout)
                 return {"message": "An error occurred inserting the item."}, 50
 
+
+class ControlMixResourse(Resource, BaseSerializer):
     
+    controlmix_parser = RequestParser()
+    controlmix_parser.add_argument("id", type=int, required=False, help="This password field cannot be left blank!")
+    
+
+    def get(self):
+        dato = self.controlmix_parser.parse_args()
+        #print(dato)
+        get_user = UserModel.find_users_by_id(dato.id)
+        get_product_detail = ProductsDetailModel.find_all_products_detail()
+
+        data = {}
+        lista = []
+        data["user"] = get_user.user
+        
+        for i in get_product_detail:
+            #print("i: ", i.serialize()["nro"])
+            #print("i: ", i.serialize()["descripcion"])
+            lista.append(i.serialize())
+
+        data["productos"] = lista
+        #print(data)
+
+        return data
+
+
 api.add_resource(ControlResource, '/api/control')
+api.add_resource(ControlMixResourse, '/api/controlmix')
