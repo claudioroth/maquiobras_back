@@ -86,19 +86,25 @@ class ControlMixResourse(Resource, BaseSerializer):
     
 
     def get(self):
-        dato = self.controlmix_parser.parse_args()
+        #dato = self.controlmix_parser.parse_args()
         #print(dato)
-        get_user = UserModel.find_users_by_id(dato.id)
+        get_user = UserModel.find_all_users()
         get_product_detail = ProductsDetailModel.find_all_products_detail()
 
         data = {}
         lista = []
-        data["user"] = get_user.user
+        lista_users = []
+
         
+        for ii in get_user:
+            lista_users.append(ii.serialize()["user"])
+        
+        data["user"] = lista_users
+
         for i in get_product_detail:
             #print("i: ", i.serialize()["nro"])
             #print("i: ", i.serialize()["descripcion"])
-            lista.append(i.serialize())
+            lista.append(i.serialize()["descripcion"])
 
         data["productos"] = lista
         #print(data)
