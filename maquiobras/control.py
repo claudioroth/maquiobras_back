@@ -94,10 +94,10 @@ class ControlMixResourse(Resource, BaseSerializer):
         data = {}
         lista = []
         lista_users = []
-        user_interno = {}
-        lista_interno = {}
+
         
         for ii in get_user:
+            user_interno = {}
             user_interno["id"] = ii.serialize()["id"]
             user_interno["user"] = ii.serialize()["user"]
             lista_users.append(user_interno)
@@ -105,10 +105,12 @@ class ControlMixResourse(Resource, BaseSerializer):
         data["user"] = lista_users
 
         for i in get_product_detail:
+            lista_interno = {}
             lista_interno["index"] = i.serialize()["nro"]
             lista_interno["descripcion"] = i.serialize()["descripcion"]
             #print("i: ", i.serialize()["descripcion"])
             lista.append(lista_interno)
+            
 
         data["productos"] = lista
         #print(data)
