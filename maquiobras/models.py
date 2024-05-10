@@ -47,7 +47,8 @@ class ControlModel(db.Model, BaseSerializer):
 
     @classmethod
     def find_all_control(cls):
-        return cls.query.all()
+        #return cls.query.all()
+        return cls.query.order_by(ControlModel.id.desc())
     
 
 class ProductsModel(db.Model, BaseSerializer):
