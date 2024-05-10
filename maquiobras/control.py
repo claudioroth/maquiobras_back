@@ -43,10 +43,10 @@ class ControlResource(Resource, BaseSerializer):
                 res["fecha"] = i.fecha.strftime('%Y-%m-%d %H:%M:%S')
 
                 users_lista = UserModel.find_users_by_id(i.id_user)
-                prod_lista = ProductsModel.find_products_by_id(i.id_prod)
+                prod_lista = ProductsDetailModel.find_products_by_index(i.id_prod)
 
                 res["nombre"] = users_lista.user
-                res["producto"] = prod_lista.nombre_prod
+                res["producto"] = prod_lista.descripcion
                 lista.append(res)
             
             #aca falta hacer la resta de la cantidad total que hay en productos respecto a lo que se saca.
@@ -106,7 +106,8 @@ class ControlMixResourse(Resource, BaseSerializer):
 
         for i in get_product_detail:
             lista_interno = {}
-            lista_interno["index"] = i.serialize()["nro"]
+            lista_interno["index"] = i.serialize()["index"]
+            lista_interno["nro"] = i.serialize()["nro"]
             lista_interno["descripcion"] = i.serialize()["descripcion"]
             #print("i: ", i.serialize()["descripcion"])
             lista.append(lista_interno)

@@ -125,3 +125,7 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     @classmethod
     def find_all_products_detail(cls):
         return cls.query.all()
+    
+    @classmethod
+    def find_products_by_index(cls, index):
+        return cls.query.filter_by(index=index).first()
