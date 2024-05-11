@@ -1,6 +1,12 @@
 *.xlsm
-.venv
 .env
-venv
-env
-__pycache__/
+.venv
+/env
+/venv
+ENV/
+env.bak/
+venv.bak/
+__pycache__
+.vscode
+*.pyc
+*.pyo
