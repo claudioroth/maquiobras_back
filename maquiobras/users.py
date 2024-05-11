@@ -62,7 +62,7 @@ class UsersResource(Resource, BaseSerializer):
                 user_insert = UserModel(**data)
                 db.session.add(user_insert)
                 db.session.commit()
-                return {"message": "Usuario '{}' creado."}.format(dato.user), 200
+                return {"message": "Usuario '{}' creado.".format(dato.user)}, 200
             
             except Exception as e:
                 return e.args, 500
