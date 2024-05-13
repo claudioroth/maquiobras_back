@@ -101,5 +101,6 @@ from sqlalchemy import create_engine
 
 #df = pd.read_excel("Lista de precios Maquiobras 4-4-24.xlsm")
 df = pd.read_excel("Lista.xlsm")
-engine = create_engine("mysql+pymysql://root:root@localhost:8889/maquiobrasdb")
+#engine = create_engine("mysql+pymysql://root:root@localhost:8889/maquiobrasdb")
+engine = create_engine("mysql+pymysql://root:Char#123@localhost:3306/maquiobrasdb")
 df.to_sql("product_detail", con=engine)
