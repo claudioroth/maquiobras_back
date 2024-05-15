@@ -47,6 +47,7 @@ class ControlResource(Resource, BaseSerializer):
 
                 res["nombre"] = users_lista.user
                 res["producto"] = prod_lista.descripcion
+                #print("prod_lista: ", prod_lista)
                 lista.append(res)
             
             #aca falta hacer la resta de la cantidad total que hay en productos respecto a lo que se saca.
@@ -59,24 +60,45 @@ class ControlResource(Resource, BaseSerializer):
         Control Resource para materiales
         """
         dato = self.control_parser.parse_args()
-        #print(dato)
+        print("retiro: ", dato["retiro"])
+        dato_producto = ProductsDetailModel.find_products_by_index(dato.id_prod)
+        print("cantidad: ", dato_producto.cantidad)
+        #print(dato_producto.serialize())
         data_insert = {}
+        
         if not dato:
             return {"message": "Datos incorrectos para registrar"}, 500
         else:
-            data_insert["retiro"] = dato["retiro"]
-            data_insert["id_user"] = dato["id_user"]
-            data_insert["id_prod"] = dato["id_prod"]
-            data_insert["fecha"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            todosInsert = ControlModel(**data_insert)
-            try:
-                db.session.add(todosInsert)
-                db.session.commit()
-                return {"message": "ok"}, 200
-            except Exception as e:
-                #print(e)
-                traceback.print_exc(file=sys.stdout)
-                return {"message": "An error occurred inserting the item."}, 50
+            if dato_producto.cantidad >= dato["retiro"]:    #si hay stock de cantidad del prod mas o igual que lo q quiero sacar
+                data_insert["retiro"] = dato["retiro"]
+                data_insert["id_user"] = dato["id_user"]
+                data_insert["id_prod"] = dato["id_prod"]
+                data_insert["fecha"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+                todosInsert = ControlModel(**data_insert)
+                try:
+                    db.session.add(todosInsert)
+                    db.session.commit()
+                    
+                    try:
+                        cant_nueva = dato_producto.cantidad - dato["retiro"]
+                        db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == data_insert["id_prod"]).update(dict(cantidad=cant_nueva))
+                        db.session.commit()
+
+                        return {"message": "ok"}, 200
+
+                    except Exception as ee:
+                        print(ee)
+                        traceback.print_exc(file=sys.stdout)
+                        return {"message": "An error occurred inserting product_detail cant."}, 500    
+                    
+                    
+                
+                except Exception as e:
+                    print(e)
+                    traceback.print_exc(file=sys.stdout)
+                    return {"message": "An error occurred inserting control."}, 500
+            else:
+                return {"message": "Stock Quantity less than Quantity of control."}, 400
 
 
 class ControlMixResourse(Resource, BaseSerializer):
@@ -97,10 +119,11 @@ class ControlMixResourse(Resource, BaseSerializer):
 
         
         for ii in get_user:
-            user_interno = {}
-            user_interno["id"] = ii.serialize()["id"]
-            user_interno["user"] = ii.serialize()["user"]
-            lista_users.append(user_interno)
+            if ii.serialize()["is_active"]:
+                user_interno = {}
+                user_interno["id"] = ii.serialize()["id"]
+                user_interno["user"] = ii.serialize()["user"]
+                lista_users.append(user_interno)
         
         data["user"] = lista_users
 
@@ -109,6 +132,7 @@ class ControlMixResourse(Resource, BaseSerializer):
             lista_interno["index"] = i.serialize()["index"]
             lista_interno["nro"] = i.serialize()["nro"]
             lista_interno["descripcion"] = i.serialize()["descripcion"]
+            lista_interno["cantidad"] = i.serialize()["cantidad"]
             #print("i: ", i.serialize()["descripcion"])
             lista.append(lista_interno)
             
