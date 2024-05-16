@@ -94,7 +94,7 @@ class ProductsDetailModel(db.Model, BaseSerializer):
 
     fields = ['index', 'nro', 'venta_iva', 'descripcion', 'lista_vieja', 'importe', 'iva_21', 'iva_10', 'oferta_sin_iva',
               'aumento', 'ultimo_modif', 'prov1', 'prov2', 'prov3', 'oferta', 'costo_bajo', 'costo_bajo1', 'rentab',
-              'venta', 'un_18', 'venta_oferta']
+              'venta', 'un_18', 'venta_oferta', 'cantidad', 'estado']
 
 
     index = db.Column('index', db.Integer, primary_key=True, autoincrement=True)
@@ -118,6 +118,8 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     venta = db.Column('VENTA', db.String)
     un_18 = db.Column('Unnamed: 18', db.String)
     venta_oferta = db.Column('VENTA OFERTA', db.String)
+    cantidad = db.Column('CANTIDAD', db.String)
+    estado = db.Column('ESTADO', db.String)
 
 
 
@@ -129,3 +131,4 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     @classmethod
     def find_products_by_index(cls, index):
         return cls.query.filter_by(index=index).first()
+    

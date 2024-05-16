@@ -25,23 +25,30 @@ class Login(Resource, BaseSerializer):
         """
         dato = self.login_parser.parse_args()
         res = UserModel.find_users_by_name(dato.user)
+        
         if not res:
             return {"message": "ERR_BAD_RESPONSE"}, 500
         else:
-            if res.user == dato.user and res.password == dato.password:
-                time.sleep(1)
-                try:
-                    fecha_update = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                    db.session.query(UserModel).filter(UserModel.user == dato.user).update(dict(fecha=fecha_update))
-                    db.session.commit()
+            if not res.is_active:
+                return {"message": "No autorizado."}, 404
+            
+            else: 
+                if res.user == dato.user and res.password == dato.password:
+                    time.sleep(1)
+                    try:
+                        fecha_update = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+                        db.session.query(UserModel).filter(UserModel.user == dato.user).update(dict(fecha=fecha_update))
+                        db.session.commit()
+                        return res.serialize(), 200
 
-                except Exception as e:
-                    #print(e)
-                    traceback.print_exc(file=sys.stdout)
-                    return {"message": "An error occurred inserting the item."}, 500
-                return res.serialize(), 200
-            else:
-                return True, 404
+                    except Exception as e:
+                        #print(e)
+                        traceback.print_exc(file=sys.stdout)
+                        return {"message": "An error occurred inserting the item."}, 500
+                else:
+                    return {"message": "Some data is not correct in the fields."}, 404
+            
+            
 
 
 
