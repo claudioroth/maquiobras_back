@@ -130,13 +130,12 @@ class ControlMixResourse(Resource, BaseSerializer):
         for i in get_product_detail:
             lista_interno = {}
             #print("i: ", i.serialize())
-            if i.serialize()["cantidad"] is not None:   #solo si hay stock traigo el mix
-                lista_interno["index"] = i.serialize()["index"]
-                lista_interno["nro"] = i.serialize()["nro"]
-                lista_interno["descripcion"] = i.serialize()["descripcion"]
-                lista_interno["cantidad"] = i.serialize()["cantidad"]
-                lista_interno["estado"] = i.serialize()["estado"]
-                lista.append(lista_interno)
+            lista_interno["index"] = i.serialize()["index"]
+            lista_interno["nro"] = i.serialize()["nro"]
+            lista_interno["descripcion"] = i.serialize()["descripcion"]
+            lista_interno["cantidad"] = i.serialize()["cantidad"]
+            lista_interno["estado"] = i.serialize()["estado"]
+            lista.append(lista_interno)
             
 
         data["productos"] = lista
@@ -145,5 +144,5 @@ class ControlMixResourse(Resource, BaseSerializer):
         return data
 
 
-api.add_resource(ControlResource, '/api/control')
+api.add_resource(ControlResource,    '/api/control')
 api.add_resource(ControlMixResourse, '/api/controlmix')
