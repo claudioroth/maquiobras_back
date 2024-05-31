@@ -100,7 +100,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 #df = pd.read_excel("Lista de precios Maquiobras 4-4-24.xlsm")
-df = pd.read_excel("Lista.xlsm")
+df = pd.read_excel("Lista2.xlsm")
 df.index += 1
 engine = create_engine("mysql+pymysql://root:root@localhost:8889/maquiobrasdb")
 #engine = create_engine("mysql+pymysql://root:Char#123@localhost:3306/maquiobrasdb")

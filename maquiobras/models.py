@@ -92,34 +92,22 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     __tablename__ = 'product_detail'
     __bind_key__ = 'maquiobrasdb'
 
-    fields = ['index', 'nro', 'venta_iva', 'descripcion', 'lista_vieja', 'importe', 'iva_21', 'iva_10', 'oferta_sin_iva',
-              'aumento', 'ultimo_modif', 'prov1', 'prov2', 'prov3', 'oferta', 'costo_bajo', 'costo_bajo1', 'rentab',
-              'venta', 'un_18', 'venta_oferta', 'cantidad', 'estado']
+    fields = ['index', 'nro', 'descripcion', 'importe_sin_iva', 'iva_21', 'iva_10', 'oferta_sin_iva',
+              'aumento', 'ultimo_modif', 'oferta_costo', 'costo_mas_bajo', 'rentabilidad']
 
 
     index = db.Column('index', db.Integer, primary_key=True, autoincrement=True)
-    nro = db.Column('N°', db.String)
-    venta_iva = db.Column('VENTA + 1/2 IVA',db.String)
+    nro = db.Column('N° PROV.', db.String)
     descripcion = db.Column('DESCRIPCION', db.String)
-    lista_vieja = db.Column('LISTA VIEJA', db.String)
-    importe = db.Column('IMPORTE', db.String)
+    importe_sin_iva = db.Column('IMPORTE S/IVA', db.String)
     iva_21 = db.Column('C/IVA 21%', db.String)
     iva_10 = db.Column('C/IVA 10.5%', db.String)
     oferta_sin_iva = db.Column('OFERTA SIN IVA', db.String)
     aumento = db.Column('AUMENTO', db.String)
     ultimo_modif = db.Column('ULT.MODIF.', db.String)
-    prov1 = db.Column('PROV.1', db.String)
-    prov2 = db.Column('PROV.2', db.String)
-    prov3 = db.Column('PROV.3', db.String)
-    oferta = db.Column('OFERTA', db.String)
-    costo_bajo = db.Column('COSTO MAS BAJO', db.String)
-    costo_bajo1 = db.Column('COSTO MAS BAJO.1', db.String)
-    rentab = db.Column('RENTAB.', db.String)
-    venta = db.Column('VENTA', db.String)
-    un_18 = db.Column('Unnamed: 18', db.String)
-    venta_oferta = db.Column('VENTA OFERTA', db.String)
-    cantidad = db.Column('CANTIDAD', db.String)
-    estado = db.Column('ESTADO', db.String)
+    oferta_costo = db.Column('OFERTA COSTO', db.String)
+    costo_mas_bajo = db.Column('COSTO MAS BAJO', db.String)
+    rentabilidad = db.Column('RENTAB.', db.String)
 
 
 
