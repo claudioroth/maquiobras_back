@@ -97,16 +97,21 @@
 
 
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
+
 
 #df = pd.read_excel("Lista de precios Maquiobras 4-4-24.xlsm")
-df = pd.read_excel("Lista.xlsm")
+df = pd.read_excel("Lista2.xlsm")
 df.index += 1
 engine = create_engine("mysql+pymysql://root:@localhost:3306/maquiobrasdb")
 #engine = create_engine("mysql+pymysql://root:Char#123@localhost:3306/maquiobrasdb")
 df.to_sql("product_detail", con=engine)
 
+connection = engine.connect()
+qry = text("ALTER TABLE `product_detail` CHANGE `index` `index` BIGINT(20) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`index`)")
+connection.execute(qry)
+
+
+
 
 #ALTER TABLE `product_detail` CHANGE `index` `index` BIGINT(20) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`index`);
-#ALTER TABLE `product_detail` ADD `CANTIDAD` INT(11) NULL DEFAULT NULL AFTER `VENTA OFERTA`;
-#ALTER TABLE `product_detail` ADD `ESTADO` VARCHAR(50) NULL DEFAULT NULL AFTER `CANTIDAD`;

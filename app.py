@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from maquiobras.exts import db, cors, api
 from maquiobras.utils import ApiException
-from maquiobras.productos import api_product
+#from maquiobras.productos import api_product
 from maquiobras.provedor import api_provedor
 from maquiobras.control import api_control
 from maquiobras.users import api_users
@@ -20,7 +20,7 @@ def register_error_handlers(app):
 
 def register_blueprints(app):
     app.register_blueprint(api_login)
-    app.register_blueprint(api_product)
+    #app.register_blueprint(api_product)
     app.register_blueprint(api_control)
     app.register_blueprint(api_users)
     app.register_blueprint(api_provedor)

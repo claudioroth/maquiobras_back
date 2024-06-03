@@ -44,9 +44,9 @@ class UsersResource(Resource, BaseSerializer):
         Usuarios Maquiobras, creacion
         """
         dato = self.users_parser.parse_args()
-        print(dato.user)
+        #print(dato.user)
         busco_user = UserModel.find_users_by_name(dato.user)
-        print(busco_user)
+        #print(busco_user)
         if busco_user is not None:
             return {'error': "Este usuario '{}' ya existe.".format(dato.user)}, 400
         else:
@@ -58,7 +58,7 @@ class UsersResource(Resource, BaseSerializer):
                 data["is_admin"] = dato.is_admin
                 data["is_active"] = 1
                 data["fecha"] = fecha_update
-                print(data)
+                #print(data)
                 user_insert = UserModel(**data)
                 db.session.add(user_insert)
                 db.session.commit()

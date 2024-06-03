@@ -22,27 +22,18 @@ class ProductDetailResource(Resource, BaseSerializer):
     prod_parser = RequestParser()
     prod_parser.add_argument("index", type=str, required=False, help="This user field cannot be left blank!")
     prod_parser.add_argument("nro", type=str, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("venta_iva", type=int, required=False, help="This user field cannot be left blank!")
     prod_parser.add_argument("descripcion", type=str, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("lista_vieja", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("importe", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("iva_21", type=str, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("iva_10", type=str, required=False, help="This user field cannot be left blank!")
+    prod_parser.add_argument("importe_sin_iva", type=int, required=False, help="This user field cannot be left blank!")
+    prod_parser.add_argument("iva_21", type=int, required=False, help="This user field cannot be left blank!")
+    prod_parser.add_argument("iva_10", type=int, required=False, help="This user field cannot be left blank!")
     prod_parser.add_argument("oferta_sin_iva", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("aumento", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("ultimo_modif", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("prov1", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("prov2", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("prov3", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("oferta", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("costo_bajo", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("costo_bajo1", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("rentab", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("venta", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("un_18", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("venta_oferta", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("cantidad", type=int, required=False, help="This user field cannot be left blank!")
-    prod_parser.add_argument("estado", type=str, required=False, help="This user field cannot be left blank!")
+    prod_parser.add_argument("aumento", type=str, required=False, help="This user field cannot be left blank!")
+    prod_parser.add_argument("ultimo_modif", type=str, required=False, help="This user field cannot be left blank!")
+    prod_parser.add_argument("oferta_costo", type=int, required=False, help="This user field cannot be left blank!")
+    prod_parser.add_argument("costo_mas_bajo", type=int, required=False, help="This user field cannot be left blank!")
+    prod_parser.add_argument("rentabilidad", type=int, required=False, help="This user field cannot be left blank!")
+    prod_parser.add_argument("stock", type=int, required=False, help="This user field cannot be left blank!")
+    
 
 
     def get(self):
@@ -71,10 +62,17 @@ class ProductDetailResource(Resource, BaseSerializer):
         else:
             data_insert["nro"] = dato["nro"]
             data_insert["descripcion"] = dato["descripcion"]
-            data_insert["cantidad"] = dato["cantidad"]
-            data_insert["estado"] = dato["estado"]
-            data_insert["ultimo_modif"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            
+            data_insert["importe_sin_iva"] = dato.importe_sin_iva
+            data_insert["iva_21"] = dato.iva_21
+            data_insert["iva_10"] = dato.iva_10
+            data_insert["oferta_sin_iva"] = dato.oferta_sin_iva
+            data_insert["aumento"] = dato.aumento
+            data_insert["ultimo_modif"] = dato.ultimo_modif
+            data_insert["oferta_costo"] = dato.oferta_costo
+            data_insert["costo_mas_bajo"] = dato.costo_mas_bajo
+            data_insert["rentabilidad"] = dato.rentabilidad
+            data_insert["stock"] = dato.stock
+
             todosInsert = ProductsDetailModel(**data_insert)
             try:
                 db.session.add(todosInsert)
@@ -103,27 +101,17 @@ class ProductDetailResource(Resource, BaseSerializer):
                 newDatos={}
                 newDatos["index"] = dato.index
                 newDatos["nro"] = dato.nro
-                newDatos["venta_iva"] = dato.venta_iva
                 newDatos["descripcion"] = dato.descripcion
-                newDatos["lista_vieja"] = dato.lista_vieja
-                newDatos["importe"] = dato.importe
+                newDatos["importe_sin_iva"] = dato.importe_sin_iva
                 newDatos["iva_21"] = dato.iva_21
                 newDatos["iva_10"] = dato.iva_10
                 newDatos["oferta_sin_iva"] = dato.oferta_sin_iva
                 newDatos["aumento"] = dato.aumento
                 newDatos["ultimo_modif"] = dato.ultimo_modif
-                newDatos["prov1"] = dato.prov1
-                newDatos["prov2"] = dato.prov2
-                newDatos["prov3"] = dato.prov3
-                newDatos["oferta"] = dato.oferta
-                newDatos["costo_bajo"] = dato.costo_bajo
-                newDatos["costo_bajo1"] = dato.costo_bajo1
-                newDatos["rentab"] = dato.rentab
-                newDatos["venta"] = dato.venta
-                newDatos["un_18"] = dato.un_18
-                newDatos["venta_oferta"] = dato.venta_oferta
-                newDatos["cantidad"] = dato.cantidad
-                newDatos["estado"] = dato.estado
+                newDatos["oferta_costo"] = dato.oferta_costo
+                newDatos["costo_mas_bajo"] = dato.costo_mas_bajo
+                newDatos["rentabilidad"] = dato.rentabilidad
+                newDatos["stock"] = dato.stock
 
                 #print(newDatos)
                 #return True
