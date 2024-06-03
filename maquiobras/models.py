@@ -25,6 +25,10 @@ class UserModel(db.Model, BaseSerializer):
         return cls.query.all()
 
     @classmethod
+    def find_all_active_users(cls):
+        return cls.query.filter(UserModel.is_active).all()
+
+    @classmethod
     def find_users_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
 
@@ -37,40 +41,22 @@ class ControlModel(db.Model, BaseSerializer):
     __tablename__ = 'control'
     __bind_key__ = 'maquiobrasdb'
 
-    fields = ['id', 'id_user', 'id_prod', 'retiro', 'fecha']
+    fields = ['id', 'id_user', 'id_prod', 'retiro', 'fecha', 'local']
 
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     id_user = db.Column(db.Integer)
     id_prod = db.Column(db.Integer)
     retiro = db.Column(db.Integer)
     fecha = db.Column(db.DateTime, default=datetime.utcnow)
+    local = db.Column(db.String)
+
+    # Deposito, Local Galicia, Local Juan B Justo
 
     @classmethod
     def find_all_control(cls):
         #return cls.query.all()
         return cls.query.order_by(ControlModel.id.desc())
     
-
-class ProductsModel(db.Model, BaseSerializer):
-    __tablename__ = 'products'
-    __bind_key__ = 'maquiobrasdb'
-
-    fields = ['id', 'nombre_prod', 'tipo_prod', 'cantidad', 'descripcion']
-
-    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
-    nombre_prod = db.Column(db.Integer)
-    tipo_prod = db.Column(db.Integer)
-    cantidad = db.Column(db.Integer)
-    descripcion = db.Column(db.DateTime)
-
-    @classmethod
-    def find_all_products(cls):
-        return cls.query.all()
-    
-    @classmethod
-    def find_products_by_id(cls, id):
-        return cls.query.filter_by(id=id).first()
-
 
 
 class ProvedorModel(db.Model, BaseSerializer):
@@ -93,7 +79,7 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     __bind_key__ = 'maquiobrasdb'
 
     fields = ['index', 'nro', 'descripcion', 'importe_sin_iva', 'iva_21', 'iva_10', 'oferta_sin_iva',
-              'aumento', 'ultimo_modif', 'oferta_costo', 'costo_mas_bajo', 'rentabilidad']
+              'aumento', 'ultimo_modif', 'oferta_costo', 'costo_mas_bajo', 'rentabilidad', 'stock']
 
 
     index = db.Column('index', db.Integer, primary_key=True, autoincrement=True)
@@ -108,6 +94,7 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     oferta_costo = db.Column('OFERTA COSTO', db.String)
     costo_mas_bajo = db.Column('COSTO MAS BAJO', db.String)
     rentabilidad = db.Column('RENTAB.', db.String)
+    stock = db.Column('STOCK', db.Integer)
 
 
 
@@ -115,6 +102,10 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     @classmethod
     def find_all_products_detail(cls):
         return cls.query.all()
+    
+    @classmethod
+    def find_all_productos_with_stock(cls):
+        return cls.query.filter(ProductsDetailModel.stock != None).all()
     
     @classmethod
     def find_products_by_index(cls, index):

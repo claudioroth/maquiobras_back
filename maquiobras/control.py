@@ -9,7 +9,7 @@ from sqlalchemy.ext import mutable
 #from sqlalchemy_filters import apply_pagination
 import json
 from string import capwords
-from maquiobras.models import ControlModel, UserModel, ProductsModel, ProductsDetailModel
+from maquiobras.models import ControlModel, UserModel, ProductsDetailModel
 import sys
 import traceback
 from datetime import datetime
@@ -24,6 +24,7 @@ class ControlResource(Resource, BaseSerializer):
     control_parser.add_argument("retiro", type=int, required=False, help="This password field cannot be left blank!")
     control_parser.add_argument("id_user", type=int, required=False, help="This is_admin field cannot be left blank!")
     control_parser.add_argument("id_prod", type=int, required=False, help="This user field cannot be left blank!")
+    control_parser.add_argument("local", type=str, required=False, help="This user field cannot be left blank!")
 
     def get(self):
         """
@@ -37,20 +38,16 @@ class ControlResource(Resource, BaseSerializer):
         else:
             for i in data:
                 res = {}
-                #lista.append(i.serialize())
                 res["id"] = i.id
                 res["retiro"] = i.retiro
                 res["fecha"] = i.fecha.strftime('%Y-%m-%d %H:%M:%S')
 
                 users_lista = UserModel.find_users_by_id(i.id_user)
                 prod_lista = ProductsDetailModel.find_products_by_index(i.id_prod)
-
                 res["nombre"] = users_lista.user
                 res["producto"] = prod_lista.descripcion
-                #print("prod_lista: ", prod_lista)
                 lista.append(res)
-            
-            #aca falta hacer la resta de la cantidad total que hay en productos respecto a lo que se saca.
+
             return lista, 200
 
 
@@ -62,26 +59,28 @@ class ControlResource(Resource, BaseSerializer):
         dato = self.control_parser.parse_args()
         print("retiro: ", dato["retiro"])
         dato_producto = ProductsDetailModel.find_products_by_index(dato.id_prod)
-        print("cantidad: ", dato_producto.cantidad)
-        #print(dato_producto.serialize())
+        print("stock: ", dato_producto.stock)
+        print(dato_producto.serialize())
         data_insert = {}
         
         if not dato:
             return {"message": "Datos incorrectos para registrar"}, 500
         else:
-            if dato_producto.cantidad >= dato["retiro"]:    #si hay stock de cantidad del prod mas o igual que lo q quiero sacar
+            if dato_producto.stock >= dato["retiro"]:    #si hay stock de cantidad del prod mas o igual que lo q quiero sacar
                 data_insert["retiro"] = dato["retiro"]
                 data_insert["id_user"] = dato["id_user"]
                 data_insert["id_prod"] = dato["id_prod"]
                 data_insert["fecha"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+                data_insert["local"] = dato["local"]
                 todosInsert = ControlModel(**data_insert)
                 try:
                     db.session.add(todosInsert)
                     db.session.commit()
                     
                     try:
-                        cant_nueva = dato_producto.cantidad - dato["retiro"]
-                        db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == data_insert["id_prod"]).update(dict(cantidad=cant_nueva))
+                        cant_nueva = dato_producto.stock - dato["retiro"]
+                        #print("cant_nueva: ", cant_nueva)
+                        db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == data_insert["id_prod"]).update(dict(stock=cant_nueva))
                         db.session.commit()
 
                         return {"message": "ok"}, 200
@@ -98,7 +97,7 @@ class ControlResource(Resource, BaseSerializer):
                     traceback.print_exc(file=sys.stdout)
                     return {"message": "An error occurred inserting control."}, 500
             else:
-                return {"message": "Stock Quantity less than Quantity of control."}, 400
+                return {"message": "Stock Quantity less than Quantity of control."}, 404
 
 
 class ControlMixResourse(Resource, BaseSerializer):
@@ -110,8 +109,8 @@ class ControlMixResourse(Resource, BaseSerializer):
     def get(self):
         #dato = self.controlmix_parser.parse_args()
         #print(dato)
-        get_user = UserModel.find_all_users()
-        get_product_detail = ProductsDetailModel.find_all_products_detail()
+        get_user = UserModel.find_all_active_users()
+        get_product_detail = ProductsDetailModel.find_all_productos_with_stock()
 
         data = {}
         lista = []
@@ -119,11 +118,10 @@ class ControlMixResourse(Resource, BaseSerializer):
 
         
         for ii in get_user:
-            if ii.serialize()["is_active"]:
-                user_interno = {}
-                user_interno["id"] = ii.serialize()["id"]
-                user_interno["user"] = ii.serialize()["user"]
-                lista_users.append(user_interno)
+            user_interno = {}
+            user_interno["id"] = ii.serialize()["id"]
+            user_interno["user"] = ii.serialize()["user"]
+            lista_users.append(user_interno)
         
         data["user"] = lista_users
 
@@ -133,13 +131,11 @@ class ControlMixResourse(Resource, BaseSerializer):
             lista_interno["index"] = i.serialize()["index"]
             lista_interno["nro"] = i.serialize()["nro"]
             lista_interno["descripcion"] = i.serialize()["descripcion"]
-            lista_interno["cantidad"] = i.serialize()["cantidad"]
-            lista_interno["estado"] = i.serialize()["estado"]
+            lista_interno["stock"] = i.serialize()["stock"]
             lista.append(lista_interno)
             
 
         data["productos"] = lista
-        #print(data)
 
         return data
 
