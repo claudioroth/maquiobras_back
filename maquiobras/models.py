@@ -105,7 +105,7 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     
     @classmethod
     def find_all_productos_with_stock(cls):
-        return cls.query.filter(ProductsDetailModel.stock != None).all()
+        return cls.query.filter(ProductsDetailModel.stock != None, ProductsDetailModel.stock > 0).all()
     
     @classmethod
     def find_products_by_index(cls, index):
