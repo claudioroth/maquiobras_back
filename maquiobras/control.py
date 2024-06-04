@@ -41,11 +41,13 @@ class ControlResource(Resource, BaseSerializer):
                 res["id"] = i.id
                 res["retiro"] = i.retiro
                 res["fecha"] = i.fecha.strftime('%Y-%m-%d %H:%M:%S')
+                res["local"] = i.local
 
                 users_lista = UserModel.find_users_by_id(i.id_user)
                 prod_lista = ProductsDetailModel.find_products_by_index(i.id_prod)
                 res["nombre"] = users_lista.user
                 res["producto"] = prod_lista.descripcion
+                
                 lista.append(res)
 
             return lista, 200
