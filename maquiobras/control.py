@@ -82,9 +82,9 @@ class ControlResource(Resource, BaseSerializer):
                     db.session.commit()
                     
                     try:
-                        cant_nueva = dato_producto.stock - dato["retiro"]
-                        #print("cant_nueva: ", cant_nueva)
-                        db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == data_insert["id_prod"]).update(dict(stock=cant_nueva))
+                        cant_nueva = int(dato_producto.stock) - int(dato["retiro"])
+                        print("cant_nueva: ", cant_nueva)
+                        db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva))
                         db.session.commit()
 
                         return {"message": "ok"}, 200
