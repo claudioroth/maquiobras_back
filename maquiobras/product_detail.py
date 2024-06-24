@@ -130,22 +130,22 @@ class ProductDetailResource(Resource, BaseSerializer):
         """
         Product_detail Maquiobras, metodo de borrado
         """
-        dato = self.prod_parser.parse_args()
-        get_product = ProductsDetailModel.find_products_by_index(dato.index)
+        # dato = self.prod_parser.parse_args()
+        # get_product = ProductsDetailModel.find_products_by_index(dato.index)
 
-        if not get_product:
-            return {"message": "Invalid product_detail index '{}'".format(dato.index)}, 400
-        else:
-            try:
-                db.session.delete(get_product)
-                db.session.commit()
-                return {'message': "The product_detail has been deleted.".format(dato.index)}, 200
+        # if not get_product:
+        #     return {"message": "Invalid product_detail index '{}'".format(dato.index)}, 400
+        # else:
+        #     try:
+        #         db.session.delete(get_product)
+        #         db.session.commit()
+        #         return {'message': "The product_detail has been deleted.".format(dato.index)}, 200
             
-            except Exception as e:
-                #print(e)
-                traceback.print_exc(file=sys.stdout)
-                return {"message": "An error occurred deleting the item."}, 500
-        #return {"message": "Metodo deshabilitado."}, 200
+        #     except Exception as e:
+        #         #print(e)
+        #         traceback.print_exc(file=sys.stdout)
+        #         return {"message": "An error occurred deleting the item."}, 500
+        return {"message": "Metodo deshabilitado."}, 200
 
 
 
@@ -156,6 +156,26 @@ class ProductDetailResources(Resource, BaseSerializer):
             return {"message": "The product_detail index '{}' doesnt exist.".format(index)}, 404
         else:
             return get_prod.serialize(), 200
+
+    def delete(self, index):
+        """
+        Product_detail Maquiobras, metodo de borrado
+        """
+
+        get_product = ProductsDetailModel.find_products_by_index(index)
+
+        if not get_product:
+            return {"message": "Invalid product_detail index '{}'".format(index)}, 400
+        else:
+            try:
+                db.session.delete(get_product)
+                db.session.commit()
+                return {'message': "The product_detail has been deleted.".format(index)}, 200
+            
+            except Exception as e:
+                #print(e)
+                traceback.print_exc(file=sys.stdout)
+                return {"message": "An error occurred deleting the item."}, 500
 
 
 api.add_resource(ProductDetailResource,  '/api/product_detail')
