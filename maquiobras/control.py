@@ -24,6 +24,7 @@ class ControlResource(Resource, BaseSerializer):
     control_parser.add_argument("retiro", type=int, required=False, help="This password field cannot be left blank!")
     control_parser.add_argument("id_user", type=int, required=False, help="This is_admin field cannot be left blank!")
     control_parser.add_argument("id_prod", type=int, required=False, help="This user field cannot be left blank!")
+    control_parser.add_argument("descripcion", type=str, required=False, help="This user field cannot be left blank!")
     control_parser.add_argument("local", type=str, required=False, help="This user field cannot be left blank!")
 
     def get(self):
@@ -44,9 +45,9 @@ class ControlResource(Resource, BaseSerializer):
                 res["local"] = i.local
 
                 users_lista = UserModel.find_users_by_id(i.id_user)
-                prod_lista = ProductsDetailModel.find_products_by_index(i.id_prod)
+                #prod_lista = ProductsDetailModel.find_products_by_index(i.id_prod)
                 res["nombre"] = users_lista.user
-                res["producto"] = prod_lista.descripcion
+                res["producto"] = i.id_prod
                 
                 lista.append(res)
 
@@ -60,6 +61,7 @@ class ControlResource(Resource, BaseSerializer):
         """
         dato = self.control_parser.parse_args()
         print("retiro: ", dato["retiro"])
+        print("dato: ", dato)
         dato_producto = ProductsDetailModel.find_products_by_index(dato.id_prod)
         print("stock: ", dato_producto.stock)
         print(dato_producto.serialize())
@@ -71,7 +73,7 @@ class ControlResource(Resource, BaseSerializer):
             if dato_producto.stock >= dato["retiro"]:    #si hay stock de cantidad del prod mas o igual que lo q quiero sacar
                 data_insert["retiro"] = dato["retiro"]
                 data_insert["id_user"] = dato["id_user"]
-                data_insert["id_prod"] = dato["id_prod"]
+                data_insert["id_prod"] = dato["descripcion"]
                 data_insert["fecha"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
                 data_insert["local"] = dato["local"]
                 todosInsert = ControlModel(**data_insert)

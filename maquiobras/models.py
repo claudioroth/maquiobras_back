@@ -45,7 +45,7 @@ class ControlModel(db.Model, BaseSerializer):
 
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     id_user = db.Column(db.Integer)
-    id_prod = db.Column(db.Integer)
+    id_prod = db.Column(db.String)
     retiro = db.Column(db.Integer)
     fecha = db.Column(db.DateTime, default=datetime.utcnow)
     local = db.Column(db.String)
