@@ -74,7 +74,8 @@ class ControlResource(Resource, BaseSerializer):
                 data_insert["retiro"] = dato["retiro"]
                 data_insert["id_user"] = dato["id_user"]
                 data_insert["id_prod"] = dato["descripcion"]
-                data_insert["fecha"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+                #data_insert["fecha"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+                data_insert["fecha"] = datetime.today().strftime('%d-%m-%Y')
                 data_insert["local"] = dato["local"]
                 todosInsert = ControlModel(**data_insert)
                 try:
