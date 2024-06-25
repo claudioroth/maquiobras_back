@@ -1,5 +1,6 @@
 DEFAULT_TYPE_FORMATTER = {
-    "datetime": lambda val: val.strftime("%Y-%m-%d %H:%M:%S") if val else val,
+    #"datetime": lambda val: val.strftime("%Y-%m-%d %H:%M:%S") if val else val,
+    "datetime": lambda val: val.strftime("%d-%m-%Y") if val else val,
     "Decimal": lambda val: float(val)
 }
 
