@@ -47,7 +47,7 @@ class ControlModel(db.Model, BaseSerializer):
     id_user = db.Column(db.Integer)
     id_prod = db.Column(db.String)
     retiro = db.Column(db.Integer)
-    fecha = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha = db.Column(db.String)
     local = db.Column(db.String)
 
     # Deposito, Local Galicia, Local Juan B Justo
