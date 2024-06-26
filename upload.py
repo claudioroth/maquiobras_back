@@ -114,6 +114,7 @@ connection.execute(qry)
 
 
 
+#VERIFICAR
 #ALTER TABLE `product_detail` CHANGE `index` `index` BIGINT(20) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`index`);
 #ALTER TABLE `product_detail` CHANGE `IMPORTE S/IVA` `IMPORTE S/IVA` TEXT NULL DEFAULT NULL;
 #ALTER TABLE `product_detail` CHANGE `C/IVA 10.5%` `C/IVA 10.5%` TEXT NULL DEFAULT NULL;
