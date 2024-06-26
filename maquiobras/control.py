@@ -38,10 +38,11 @@ class ControlResource(Resource, BaseSerializer):
             return {"message": "No hay data para mostrar."}, 404
         else:
             for i in data:
+                print("i: ", i.serialize())
                 res = {}
                 res["id"] = i.id
                 res["retiro"] = i.retiro
-                res["fecha"] = i.fecha
+                res["fecha"] = i.fecha.strftime('%Y-%m-%d %H:%M:%S')
                 res["local"] = i.local
 
                 users_lista = UserModel.find_users_by_id(i.id_user)
@@ -74,8 +75,7 @@ class ControlResource(Resource, BaseSerializer):
                 data_insert["retiro"] = dato["retiro"]
                 data_insert["id_user"] = dato["id_user"]
                 data_insert["id_prod"] = dato["descripcion"]
-                #data_insert["fecha"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                data_insert["fecha"] = datetime.today().strftime('%d-%m-%Y')
+                data_insert["fecha"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
                 data_insert["local"] = dato["local"]
                 todosInsert = ControlModel(**data_insert)
                 try:
