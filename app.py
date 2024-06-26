@@ -12,7 +12,7 @@ from login import api_login
 
 def register_exts(app):
     db.init_app(app)
-    cors.init_app(app)
+    cors.init_app(app, support_credentials=True)
     api.init_app(app)
 
 def register_error_handlers(app):
