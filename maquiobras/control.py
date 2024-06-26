@@ -41,7 +41,7 @@ class ControlResource(Resource, BaseSerializer):
                 res = {}
                 res["id"] = i.id
                 res["retiro"] = i.retiro
-                res["fecha"] = i.fecha.strftime('%Y-%m-%d %H:%M:%S')
+                res["fecha"] = i.fecha
                 res["local"] = i.local
 
                 users_lista = UserModel.find_users_by_id(i.id_user)
