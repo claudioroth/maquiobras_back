@@ -38,7 +38,7 @@ class ControlResource(Resource, BaseSerializer):
             return {"message": "No hay data para mostrar."}, 404
         else:
             for i in data:
-                print("i: ", i.serialize())
+                #print("i: ", i.serialize())
                 res = {}
                 res["id"] = i.id
                 res["retiro"] = i.retiro
@@ -62,7 +62,7 @@ class ControlResource(Resource, BaseSerializer):
         """
         dato = self.control_parser.parse_args()
         #print("retiro: ", dato["retiro"])
-        #print("dato: ", dato)
+        print("dato: ", dato)
         dato_producto = ProductsDetailModel.find_products_by_index(dato.id_prod)
         #print("stock: ", dato_producto.stock)
         #print(dato_producto.serialize())
@@ -84,7 +84,7 @@ class ControlResource(Resource, BaseSerializer):
                     
                     try:
                         cant_nueva = int(dato_producto.stock) - int(dato["retiro"])
-                        #print("cant_nueva: ", cant_nueva)
+                        print("cant_nueva: ", cant_nueva)
                         db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva))
                         db.session.commit()
 
