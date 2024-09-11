@@ -129,7 +129,7 @@ class ProductDetailResource(Resource, BaseSerializer):
 
                     return {'message': "The product index '{}' has been updated.".format(dato.index)}, 200
                 
-                 else:
+                else:
                     return {'message': "No se puede grabar en db por inconsistencia en stock."}, 400
 
             except Exception as e:
