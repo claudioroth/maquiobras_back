@@ -123,10 +123,14 @@ class ProductDetailResource(Resource, BaseSerializer):
 
                 #print(newDatos)
                 #return True
-                db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato.index).update(dict(newDatos))
-                db.session.commit()
+                if newDatos["suc1"] + newDatos["suc2"] + newDatos["depo"] <= newDatos["stock"]:
+                    db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato.index).update(dict(newDatos))
+                    db.session.commit()
 
-                return {'message': "The product index '{}' has been updated.".format(dato.index)}, 200
+                    return {'message': "The product index '{}' has been updated.".format(dato.index)}, 200
+                
+                 else:
+                    return {'message': "No se puede grabar en db por inconsistencia en stock."}, 400
 
             except Exception as e:
                 print(e)
