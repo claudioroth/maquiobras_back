@@ -137,6 +137,9 @@ class ControlMixResourse(Resource, BaseSerializer):
             lista_interno["nro"] = i.serialize()["nro"]
             lista_interno["descripcion"] = i.serialize()["descripcion"]
             lista_interno["stock"] = i.serialize()["stock"]
+            lista_interno["suc1"] = i.serialize()["suc1"]
+            lista_interno["suc2"] = i.serialize()["suc2"]
+            lista_interno["depo"] = i.serialize()["depo"]
             lista.append(lista_interno)
             
 
