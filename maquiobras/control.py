@@ -85,7 +85,22 @@ class ControlResource(Resource, BaseSerializer):
                     try:
                         cant_nueva = int(dato_producto.stock) - int(dato["retiro"])
                         print("cant_nueva: ", cant_nueva)
-                        db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva))
+
+                        if data_insert["local"] == "Local Galicia":
+                            cant_nueva_suc = int(dato_producto.suc1) - int(dato["retiro"])
+                            print("cant_nueva_suc: ", cant_nueva_suc)
+                            db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, suc1=cant_nueva_suc))
+
+                        elif data_insert["local"] == "Local Juan B Justo":
+                            cant_nueva_suc = int(dato_producto.suc2) - int(dato["retiro"])
+                            print("cant_nueva_suc: ", cant_nueva_suc)
+                            db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, suc2=cant_nueva_suc))
+
+                        elif data_insert["local"] == "Deposito":
+                            cant_nueva_suc = int(dato_producto.depo) - int(dato["retiro"])
+                            print("cant_nueva_suc: ", cant_nueva_suc)
+                            db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, depo=cant_nueva_suc))
+                
                         db.session.commit()
 
                         return {"message": "ok"}, 200
@@ -148,5 +163,28 @@ class ControlMixResourse(Resource, BaseSerializer):
         return data
 
 
-api.add_resource(ControlResource,    '/api/control')
-api.add_resource(ControlMixResourse, '/api/controlmix')
+class ControlMixResourses(Resource, BaseSerializer):
+    
+
+    def get(self, suc):
+        #print(suc)
+        get_tools_by_suc = ProductsDetailModel.find_products_by_sucursal(suc)
+        
+        #print(get_tools_by_suc)
+        lista=[]
+
+        if get_tools_by_suc:
+            for i in get_tools_by_suc:
+                #print("i: ", i.serialize())
+                lista.append(i.serialize())
+
+            return lista
+        else:
+            return {}
+
+        
+
+
+api.add_resource(ControlResource,     '/api/control')
+api.add_resource(ControlMixResourse,  '/api/controlmix')
+api.add_resource(ControlMixResourses, '/api/controlmix/<string:suc>')
