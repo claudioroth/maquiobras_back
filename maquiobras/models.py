@@ -112,4 +112,13 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     @classmethod
     def find_products_by_index(cls, index):
         return cls.query.filter_by(index=index).first()
-    
+
+    @classmethod
+    def find_products_by_sucursal(cls, sucursal):
+
+        if sucursal == "suc1":            
+            return cls.query.filter(ProductsDetailModel.suc1).all()
+        elif sucursal == "suc2":
+            return cls.query.filter(ProductsDetailModel.suc2).all()
+        elif sucursal == "depo":
+            return cls.query.filter(ProductsDetailModel.depo).all()
