@@ -103,6 +103,7 @@ from sqlalchemy import create_engine, text
 #df = pd.read_excel("Lista de precios Maquiobras 4-4-24.xlsm")
 df = pd.read_excel("Lista2.xlsm")
 df.index += 1
+#engine = create_engine("mysql+pymysql://root:root@localhost:3306/maquiobrasdb")
 engine = create_engine("mysql+pymysql://root:@localhost:3306/maquiobrasdb")
 #engine = create_engine("mysql+pymysql://root:Char#123@localhost:3306/maquiobrasdb")
 df.to_sql("product_detail", con=engine)
@@ -114,13 +115,32 @@ connection.execute(qry)
 
 
 
-#VERIFICAR
-#ALTER TABLE `product_detail` CHANGE `index` `index` BIGINT(20) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`index`);
+#SE CORRE APENAS SE GENERA LA TABLA CON PYTHON
 #ALTER TABLE `product_detail` CHANGE `IMPORTE S/IVA` `IMPORTE S/IVA` TEXT NULL DEFAULT NULL;
 #ALTER TABLE `product_detail` CHANGE `C/IVA 10.5%` `C/IVA 10.5%` TEXT NULL DEFAULT NULL;
 #ALTER TABLE `product_detail` CHANGE `OFERTA SIN IVA` `OFERTA SIN IVA` TEXT NULL DEFAULT NULL;
 #ALTER TABLE `product_detail` CHANGE `OFERTA COSTO` `OFERTA COSTO` TEXT NULL DEFAULT NULL;
 #ALTER TABLE `product_detail` CHANGE `COSTO MAS BAJO` `COSTO MAS BAJO` TEXT NULL DEFAULT NULL;
 #ALTER TABLE `product_detail` CHANGE `RENTAB.` `RENTAB.` TEXT NULL DEFAULT NULL;
+#ALTER TABLE `product_detail` CHANGE `ULT.MODIF.` `ULT.MODIF.` DATETIME NULL DEFAULT NULL;
+#ALTER TABLE `product_detail` ADD `STOCK` DOUBLE NULL DEFAULT NULL AFTER `RENTAB.`;
+#ALTER TABLE `product_detail` ADD `SUC1` DOUBLE NULL DEFAULT NULL AFTER `STOCK`;
+#ALTER TABLE `product_detail` ADD `SUC2` DOUBLE NULL DEFAULT NULL AFTER `SUC1`;
+#ALTER TABLE `product_detail` ADD `DEPO` DOUBLE NULL DEFAULT NULL AFTER `SUC2`;
 
-#ALTER TABLE `product_detail` CHANGE `OFERTA COSTO` `OFERTA COSTO` DECIMAL(10,2) NULL DEFAULT NULL;
+
+#SE ARREGLA LUEGO VALORES EN NULL Y *
+#UPDATE `product_detail` SET `C/IVA 21%`=0 WHERE `C/IVA 21%` is NULL;
+#UPDATE `product_detail` SET `C/IVA 21%`=0 WHERE `C/IVA 21%`='*';
+
+#UPDATE `product_detail` SET `C/IVA 10.5%`=0 WHERE `C/IVA 10.5%` is NULL;
+#UPDATE `product_detail` SET `C/IVA 10.5%`=0 WHERE `C/IVA 10.5%`='*';
+
+#UPDATE `product_detail` SET `OFERTA COSTO`=0 WHERE `OFERTA COSTO` is NULL;
+#UPDATE `product_detail` SET `OFERTA COSTO`=0 WHERE `OFERTA COSTO`='*';
+
+
+#UPDATE `product_detail` SET `STOCK`=0 WHERE `STOCK` is NULL;
+#UPDATE `product_detail` SET `SUC1`=0 WHERE `SUC1` is NULL;
+#UPDATE `product_detail` SET `SUC2`=0 WHERE `SUC2` is NULL;
+#UPDATE `product_detail` SET `DEPO`=0 WHERE `DEPO` is NULL;

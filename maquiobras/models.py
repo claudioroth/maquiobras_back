@@ -79,7 +79,7 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     __bind_key__ = 'maquiobrasdb'
 
     fields = ['index', 'nro', 'descripcion', 'importe_sin_iva', 'iva_21', 'iva_10', 'oferta_sin_iva',
-              'aumento', 'ultimo_modif', 'oferta_costo', 'costo_mas_bajo', 'rentabilidad', 'stock']
+              'aumento', 'ultimo_modif', 'oferta_costo', 'costo_mas_bajo', 'rentabilidad', 'stock', 'suc1', 'suc2', 'depo']
 
 
     index = db.Column('index', db.Integer, primary_key=True, autoincrement=True)
@@ -95,7 +95,9 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     costo_mas_bajo = db.Column('COSTO MAS BAJO', db.String)
     rentabilidad = db.Column('RENTAB.', db.String)
     stock = db.Column('STOCK', db.Integer)
-
+    suc1 = db.Column('SUC1', db.Integer)
+    suc2 = db.Column('SUC2', db.Integer)
+    depo = db.Column('DEPO', db.Integer)
 
 
 
