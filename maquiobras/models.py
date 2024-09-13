@@ -116,9 +116,17 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     @classmethod
     def find_products_by_sucursal(cls, sucursal):
 
+        # if sucursal == "suc1":            
+        #     return cls.query.filter(ProductsDetailModel.suc1).all()
+        # elif sucursal == "suc2":
+        #     return cls.query.filter(ProductsDetailModel.suc2).all()
+        # elif sucursal == "depo":
+        #     return cls.query.filter(ProductsDetailModel.depo).all()
+
         if sucursal == "suc1":            
-            return cls.query.filter(ProductsDetailModel.suc1).all()
+            return cls.query.filter(ProductsDetailModel.suc1 != None, ProductsDetailModel.suc1 > 0).all()
         elif sucursal == "suc2":
-            return cls.query.filter(ProductsDetailModel.suc2).all()
+            return cls.query.filter(ProductsDetailModel.suc2 != None, ProductsDetailModel.suc2 > 0).all()
         elif sucursal == "depo":
-            return cls.query.filter(ProductsDetailModel.depo).all()
+            return cls.query.filter(ProductsDetailModel.depo != None, ProductsDetailModel.depo > 0).all()
+
