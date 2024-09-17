@@ -49,6 +49,7 @@ class ControlModel(db.Model, BaseSerializer):
     retiro = db.Column(db.Integer)
     fecha = db.Column(db.String)
     local = db.Column(db.String)
+    destino = db.Column(db.String)
 
     # Deposito, Local Galicia, Local Juan B Justo
 

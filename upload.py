@@ -144,3 +144,6 @@ connection.execute(qry)
 #UPDATE `product_detail` SET `SUC1`=0 WHERE `SUC1` is NULL;
 #UPDATE `product_detail` SET `SUC2`=0 WHERE `SUC2` is NULL;
 #UPDATE `product_detail` SET `DEPO`=0 WHERE `DEPO` is NULL;
+
+
+#ALTER TABLE `control` ADD `destino` VARCHAR(50) NULL DEFAULT NULL AFTER `local`;

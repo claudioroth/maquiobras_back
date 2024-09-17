@@ -26,6 +26,7 @@ class ControlResource(Resource, BaseSerializer):
     control_parser.add_argument("id_prod", type=int, required=False, help="This user field cannot be left blank!")
     control_parser.add_argument("descripcion", type=str, required=False, help="This user field cannot be left blank!")
     control_parser.add_argument("local", type=str, required=False, help="This user field cannot be left blank!")
+    control_parser.add_argument("destino", type=str, required=False, help="This user field cannot be left blank!")
 
     def get(self):
         """
@@ -44,6 +45,7 @@ class ControlResource(Resource, BaseSerializer):
                 res["retiro"] = i.retiro
                 res["fecha"] = i.fecha.strftime('%Y-%m-%d %H:%M:%S')
                 res["local"] = i.local
+                res["destino"] = i.destino
 
                 users_lista = UserModel.find_users_by_id(i.id_user)
                 #prod_lista = ProductsDetailModel.find_products_by_index(i.id_prod)
@@ -77,6 +79,7 @@ class ControlResource(Resource, BaseSerializer):
                 data_insert["id_prod"] = dato["descripcion"]
                 data_insert["fecha"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
                 data_insert["local"] = dato["local"]
+                data_insert["destino"] = dato["destino"]
                 todosInsert = ControlModel(**data_insert)
                 try:
                     db.session.add(todosInsert)
@@ -84,22 +87,46 @@ class ControlResource(Resource, BaseSerializer):
                     
                     try:
                         cant_nueva = int(dato_producto.stock) - int(dato["retiro"])
-                        print("cant_nueva: ", cant_nueva)
+                        #print("cant_nueva: ", cant_nueva)
 
                         if data_insert["local"] == "Local Galicia":
                             cant_nueva_suc = int(dato_producto.suc1) - int(dato["retiro"])
-                            print("cant_nueva_suc: ", cant_nueva_suc)
-                            db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, suc1=cant_nueva_suc))
+                            if dato["destino"] == "Deposito":
+                                cant_nueva_destino = int(dato_producto.depo) + int(dato["retiro"])
+                                #db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, suc1=cant_nueva_suc, depo=cant_nueva_destino))
+                                db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(suc1=cant_nueva_suc, depo=cant_nueva_destino))
+                            elif dato["destino"] == "Local Juan B Justo":
+                                cant_nueva_destino = int(dato_producto.suc2) + int(dato["retiro"])
+                                #db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, suc1=cant_nueva_suc, suc2=cant_nueva_destino))
+                                db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(suc1=cant_nueva_suc, suc2=cant_nueva_destino))
+                            
+                            
 
                         elif data_insert["local"] == "Local Juan B Justo":
                             cant_nueva_suc = int(dato_producto.suc2) - int(dato["retiro"])
-                            print("cant_nueva_suc: ", cant_nueva_suc)
-                            db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, suc2=cant_nueva_suc))
+                            if dato["destino"] == "Deposito":
+                                cant_nueva_destino = int(dato_producto.depo) + int(dato["retiro"])
+                                #db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, suc2=cant_nueva_suc, depo=cant_nueva_destino))
+                                db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(suc2=cant_nueva_suc, depo=cant_nueva_destino))
+                            elif dato["destino"] == "Local Galicia":
+                                cant_nueva_destino = int(dato_producto.suc1) + int(dato["retiro"])
+                                #db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, suc2=cant_nueva_suc, suc1=cant_nueva_destino))
+                                db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(suc2=cant_nueva_suc, suc1=cant_nueva_destino))
+
+                            
 
                         elif data_insert["local"] == "Deposito":
                             cant_nueva_suc = int(dato_producto.depo) - int(dato["retiro"])
-                            print("cant_nueva_suc: ", cant_nueva_suc)
-                            db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, depo=cant_nueva_suc))
+                            if dato["destino"] == "Local Galicia":
+                                cant_nueva_destino = int(dato_producto.suc1) + int(dato["retiro"])
+                                #db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, depo=cant_nueva_suc, suc1=cant_nueva_destino))
+                                db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(depo=cant_nueva_suc, suc1=cant_nueva_destino))
+                            elif dato["destino"] == "Local Juan B Justo":
+                                cant_nueva_destino = int(dato_producto.suc2) + int(dato["retiro"])
+                                #db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(stock=cant_nueva, depo=cant_nueva_suc, suc2=cant_nueva_destino))
+                                db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato["id_prod"]).update(dict(depo=cant_nueva_suc, suc2=cant_nueva_destino))
+
+                            
                 
                         db.session.commit()
 
