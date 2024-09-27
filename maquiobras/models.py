@@ -11,12 +11,12 @@ class UserModel(db.Model, BaseSerializer):
     __tablename__ = 'users'
     __bind_key__ = 'maquiobrasdb'
 
-    fields = ['id', 'user', 'password', 'is_admin', 'is_active', 'fecha', 'sucursal']
+    fields = ['id', 'user', 'password', 'rol', 'is_active', 'fecha', 'sucursal']
 
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     user = db.Column(db.String)
     password = db.Column(db.String)
-    is_admin = db.Column(db.Integer)
+    rol = db.Column(db.Integer)
     is_active = db.Column(db.Integer)
     fecha = db.Column(db.DateTime)
     sucursal = db.Column(db.String)

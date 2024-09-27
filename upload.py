@@ -149,3 +149,4 @@ connection.execute(qry)
 #ALTER TABLE `control` ADD `destino` VARCHAR(50) NULL DEFAULT NULL AFTER `local`;
 
 #ALTER TABLE `users` ADD `sucursal` INT(11) NULL DEFAULT NULL AFTER `fecha`;
+#ALTER TABLE `users` CHANGE `is_admin` `rol` TINYINT(1) NOT NULL;

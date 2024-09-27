@@ -22,7 +22,7 @@ class UsersResource(Resource, BaseSerializer):
     users_parser.add_argument("id", type=int, required=False, help="This user field cannot be left blank!")
     users_parser.add_argument("user", type=str, required=False, help="This user field cannot be left blank!")
     users_parser.add_argument("password", type=str, required=False, help="This password field cannot be left blank!")
-    users_parser.add_argument("is_admin", type=str, required=False, help="This is_admin field cannot be left blank!")
+    users_parser.add_argument("rol", type=str, required=False, help="This is_admin field cannot be left blank!")
     users_parser.add_argument("is_active", type=str, required=False, help="This is_admin field cannot be left blank!")
     users_parser.add_argument("sucursal", type=str, required=False, help="This is_admin field cannot be left blank!")
 
@@ -56,7 +56,7 @@ class UsersResource(Resource, BaseSerializer):
                 data = {}
                 data["user"] = dato.user
                 data["password"] = dato.password
-                data["is_admin"] = dato.is_admin
+                data["rol"] = dato.rol
                 data["is_active"] = 1
                 data["fecha"] = fecha_update
                 data["sucursal"] = dato.sucursal
@@ -85,7 +85,7 @@ class UsersResource(Resource, BaseSerializer):
                 newDatos["id"] = dato.id
                 newDatos["user"] = dato.user
                 newDatos["password"] = dato.password
-                newDatos["is_admin"] = dato.is_admin
+                newDatos["rol"] = dato.rol
                 newDatos["is_active"] = dato.is_active
                 newDatos["fecha"] = fecha_update
                 newDatos["sucursal"] = dato.sucursal
