@@ -24,6 +24,7 @@ class UsersResource(Resource, BaseSerializer):
     users_parser.add_argument("password", type=str, required=False, help="This password field cannot be left blank!")
     users_parser.add_argument("is_admin", type=str, required=False, help="This is_admin field cannot be left blank!")
     users_parser.add_argument("is_active", type=str, required=False, help="This is_admin field cannot be left blank!")
+    users_parser.add_argument("sucursal", type=str, required=False, help="This is_admin field cannot be left blank!")
 
     def get(self):
         """
@@ -58,6 +59,7 @@ class UsersResource(Resource, BaseSerializer):
                 data["is_admin"] = dato.is_admin
                 data["is_active"] = 1
                 data["fecha"] = fecha_update
+                data["sucursal"] = dato.sucursal
                 #print(data)
                 user_insert = UserModel(**data)
                 db.session.add(user_insert)
@@ -86,6 +88,7 @@ class UsersResource(Resource, BaseSerializer):
                 newDatos["is_admin"] = dato.is_admin
                 newDatos["is_active"] = dato.is_active
                 newDatos["fecha"] = fecha_update
+                newDatos["sucursal"] = dato.sucursal
 
                 db.session.query(UserModel).filter(UserModel.id == dato.id).update(dict(newDatos))
                 db.session.commit()
