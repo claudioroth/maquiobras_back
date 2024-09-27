@@ -132,3 +132,23 @@ class ProductsDetailModel(db.Model, BaseSerializer):
         elif sucursal == "depo":
             return cls.query.filter(ProductsDetailModel.depo != None, ProductsDetailModel.depo > 0).all()
 
+
+class IngresosModel(db.Model, BaseSerializer):
+    __tablename__ = 'ingresos'
+    __bind_key__ = 'maquiobrasdb'
+
+    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', 'semi_admin', 'remito', 'fecha']
+
+    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+    id_user = db.Column(db.Integer)
+    id_sucursal = db.Column(db.String)
+    venta = db.Column(db.Integer)
+    producto = db.Column(db.String)
+    semi_admin = db.Column(db.String)
+    remito = db.Column(db.String)
+    fecha = db.Column(db.DateTime)
+
+    @classmethod
+    def find_all_ingresos(cls):
+        return cls.query.all()
+    
