@@ -151,4 +151,57 @@ class IngresosModel(db.Model, BaseSerializer):
     @classmethod
     def find_all_ingresos(cls):
         return cls.query.all()
-    
+
+
+class Ventas1Model(db.Model, BaseSerializer):
+    __tablename__ = 'ventas1'
+    __bind_key__ = 'maquiobrasdb'
+
+    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', 'fecha']
+
+    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+    id_user = db.Column(db.Integer)
+    id_sucursal = db.Column(db.String)
+    venta = db.Column(db.Integer)
+    producto = db.Column(db.String)
+    fecha = db.Column(db.DateTime)
+
+    @classmethod
+    def find_all_ventas1(cls):
+        return cls.query.all()
+
+
+class Ventas2Model(db.Model, BaseSerializer):
+    __tablename__ = 'ventas2'
+    __bind_key__ = 'maquiobrasdb'
+
+    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', 'fecha']
+
+    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+    id_user = db.Column(db.Integer)
+    id_sucursal = db.Column(db.String)
+    venta = db.Column(db.Integer)
+    producto = db.Column(db.String)
+    fecha = db.Column(db.DateTime)
+
+    @classmethod
+    def find_all_ventas2(cls):
+        return cls.query.all()
+
+
+class Ventas3Model(db.Model, BaseSerializer):
+    __tablename__ = 'ventas3'
+    __bind_key__ = 'maquiobrasdb'
+
+    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', 'fecha']
+
+    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+    id_user = db.Column(db.Integer)
+    id_sucursal = db.Column(db.String)
+    venta = db.Column(db.Integer)
+    producto = db.Column(db.String)
+    fecha = db.Column(db.DateTime)
+
+    @classmethod
+    def find_all_ventas3(cls):
+        return cls.query.all()

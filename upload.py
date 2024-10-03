@@ -150,3 +150,15 @@ connection.execute(qry)
 
 #ALTER TABLE `users` ADD `sucursal` INT(11) NULL DEFAULT NULL AFTER `fecha`;
 #ALTER TABLE `users` CHANGE `is_admin` `rol` TINYINT(1) NOT NULL;
+
+
+
+
+#CREATE TABLE `ventas1` (
+#  `id` int(11) NOT NULL,
+#  `id_user` int(11) NOT NULL,
+#  `id_sucursal` text NOT NULL,
+#  `venta` int(11) NOT NULL,
+#  `producto` text NOT NULL,
+#  `fecha` datetime NOT NULL DEFAULT current_timestamp()
+#) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
