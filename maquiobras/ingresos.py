@@ -32,7 +32,7 @@ class IngresosResource(Resource, BaseSerializer):
 
     def get(self):
         """
-        Usuarios Maquiobras, traemos todo
+        Ingresos Maquiobras, traemos todo
         """
         data = IngresosModel.find_all_ingresos()
         lista = []
@@ -77,5 +77,23 @@ class IngresosResource(Resource, BaseSerializer):
                 return {"message": "An error occurred inserting product_detail item."}, 500
             
 
+class IngresoResource(Resource, BaseSerializer):
+    
+    def get(self, id):
+        """
+        Ingreso Maquiobras, traemos todo
+        """
+        data = IngresosModel.find_all_ingresos_by_suc(id=id)
+        lista = []
+        if not data:
+            return {"message": "No hay ingresos para visualizar."}, 404
+        else:
+            for i in data:
+                lista.append(i.serialize())
+            return lista, 200
+
+
+
 
 api.add_resource(IngresosResource, '/api/ingresos')
+api.add_resource(IngresoResource,  '/api/ingreso/<int:id>')

@@ -137,12 +137,12 @@ class IngresosModel(db.Model, BaseSerializer):
     __tablename__ = 'ingresos'
     __bind_key__ = 'maquiobrasdb'
 
-    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', 'semi_admin', 'remito', 'fecha']
+    fields = ['id', 'id_user', 'id_sucursal', 'cantidad', 'producto', 'semi_admin', 'remito', 'fecha']
 
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     id_user = db.Column(db.Integer)
     id_sucursal = db.Column(db.String)
-    venta = db.Column(db.Integer)
+    cantidad = db.Column(db.Integer)
     producto = db.Column(db.String)
     semi_admin = db.Column(db.String)
     remito = db.Column(db.String)
@@ -152,18 +152,23 @@ class IngresosModel(db.Model, BaseSerializer):
     def find_all_ingresos(cls):
         return cls.query.all()
 
+    @classmethod
+    def find_all_ingresos_by_suc(cls, id):
+        return cls.query.filter_by(id=id).all()
+
 
 class Ventas1Model(db.Model, BaseSerializer):
     __tablename__ = 'ventas1'
     __bind_key__ = 'maquiobrasdb'
 
-    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', 'fecha']
+    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', "id_prod", 'fecha']
 
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     id_user = db.Column(db.Integer)
     id_sucursal = db.Column(db.String)
     venta = db.Column(db.Integer)
     producto = db.Column(db.String)
+    id_prod = db.Column(db.Integer)
     fecha = db.Column(db.DateTime)
 
     @classmethod
@@ -175,13 +180,14 @@ class Ventas2Model(db.Model, BaseSerializer):
     __tablename__ = 'ventas2'
     __bind_key__ = 'maquiobrasdb'
 
-    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', 'fecha']
+    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', 'id_prod', 'fecha']
 
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     id_user = db.Column(db.Integer)
     id_sucursal = db.Column(db.String)
     venta = db.Column(db.Integer)
     producto = db.Column(db.String)
+    id_prod = db.Column(db.Integer)
     fecha = db.Column(db.DateTime)
 
     @classmethod
@@ -193,13 +199,14 @@ class Ventas3Model(db.Model, BaseSerializer):
     __tablename__ = 'ventas3'
     __bind_key__ = 'maquiobrasdb'
 
-    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', 'fecha']
+    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', 'id_prod', 'fecha']
 
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     id_user = db.Column(db.Integer)
     id_sucursal = db.Column(db.String)
     venta = db.Column(db.Integer)
     producto = db.Column(db.String)
+    id_prod = db.Column(db.Integer)
     fecha = db.Column(db.DateTime)
 
     @classmethod

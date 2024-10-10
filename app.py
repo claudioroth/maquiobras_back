@@ -7,6 +7,9 @@ from maquiobras.control import api_control
 from maquiobras.users import api_users
 from maquiobras.product_detail import api_product_detail
 from maquiobras.ingresos import api_ingresos
+from maquiobras.ventas1 import api_ventas1
+from maquiobras.ventas2 import api_ventas2
+from maquiobras.ventas3 import api_ventas3
 
 
 from login import api_login
@@ -28,6 +31,11 @@ def register_blueprints(app):
     app.register_blueprint(api_provedor)
     app.register_blueprint(api_product_detail)
     app.register_blueprint(api_ingresos)
+    app.register_blueprint(api_ventas1)
+    app.register_blueprint(api_ventas2)
+    app.register_blueprint(api_ventas3)
+
+
 
 def create_app(config):
     app = Flask(__name__)

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 03, 2024 at 08:25 PM
+-- Generation Time: Oct 10, 2024 at 05:48 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -56,7 +56,7 @@ CREATE TABLE `ingresos` (
   `id` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_sucursal` text NOT NULL,
-  `venta` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
   `producto` text NOT NULL,
   `semi_admin` int(11) NOT NULL,
   `remito` text DEFAULT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE `ingresos` (
 -- Dumping data for table `ingresos`
 --
 
-INSERT INTO `ingresos` (`id`, `id_user`, `id_sucursal`, `venta`, `producto`, `semi_admin`, `remito`, `fecha`) VALUES
+INSERT INTO `ingresos` (`id`, `id_user`, `id_sucursal`, `cantidad`, `producto`, `semi_admin`, `remito`, `fecha`) VALUES
 (1, 1, 'Sucursal Galicia', 1, 'MARTILLO DE GOMA', 2, '00001-000123456', '2024-09-27 17:57:23');
 
 -- --------------------------------------------------------
@@ -100,7 +100,7 @@ CREATE TABLE `product_detail` (
 --
 
 INSERT INTO `product_detail` (`index`, `N° PROV.`, `DESCRIPCION`, `IMPORTE S/IVA`, `C/IVA 21%`, `C/IVA 10.5%`, `OFERTA SIN IVA`, `AUMENTO`, `ULT.MODIF.`, `OFERTA COSTO`, `COSTO MAS BAJO`, `RENTAB.`, `STOCK`, `SUC1`, `SUC2`, `DEPO`) VALUES
-(1, '11 19', 'ABRAZADERA PLASTICA 100 x 2,5 ABR1100', '1000', '1210', '1105', '1000', '2024-09-13 00:00:00', '2024-09-16 00:00:00', '1000', '1000', '2', 3, 0, 1, 2),
+(1, '11 19', 'ABRAZADERA PLASTICA 100 x 2,5 ABR1100', '1000', '1210', '1105', '1000', '2024-09-13 00:00:00', '2024-09-16 00:00:00', '1000', '1000', '2', 19, 16, 1, 2),
 (3, '12', 'ABRAZADERA PLASTICA 250 X 3,6 900006', '5170', '6255.7', '5712.849999999999', '0', '2024-09-13 00:00:00', '2024-09-16 00:00:00', '0', '2585', '2', 21, 1, 1, 19),
 (4, '19 21 45', 'ABRAZADERA PLASTICA 250 X 4,8 900011', '6800', '8228', '7514', '0', '2024-01-23 00:00:00', NULL, '0', '3399', '2', 0, 2, 0, 0),
 (5, '19 21', 'ABRAZADERA PLASTICA 300 x 3,6 ABR 2250', '0', '0', '0', '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0', '2', 22, 0, 0, 0),
@@ -4165,8 +4165,16 @@ CREATE TABLE `ventas1` (
   `id_sucursal` text NOT NULL,
   `venta` int(11) NOT NULL,
   `producto` text NOT NULL,
+  `id_prod` int(11) NOT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ventas1`
+--
+
+INSERT INTO `ventas1` (`id`, `id_user`, `id_sucursal`, `venta`, `producto`, `id_prod`, `fecha`) VALUES
+(1, 1, 'Sucursal Galicia', 1, 'ABRAZADERA PLASTICA 100 x 2,5 ABR1100', 1, '2024-10-10 12:35:15');
 
 -- --------------------------------------------------------
 
@@ -4180,6 +4188,7 @@ CREATE TABLE `ventas2` (
   `id_sucursal` text NOT NULL,
   `venta` int(11) NOT NULL,
   `producto` text NOT NULL,
+  `id_prod` int(11) NOT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -4195,6 +4204,7 @@ CREATE TABLE `ventas3` (
   `id_sucursal` text NOT NULL,
   `venta` int(11) NOT NULL,
   `producto` text NOT NULL,
+  `id_prod` int(11) NOT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -4235,6 +4245,24 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `ventas1`
+--
+ALTER TABLE `ventas1`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ventas2`
+--
+ALTER TABLE `ventas2`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ventas3`
+--
+ALTER TABLE `ventas3`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -4267,6 +4295,24 @@ ALTER TABLE `provedor`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `ventas1`
+--
+ALTER TABLE `ventas1`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `ventas2`
+--
+ALTER TABLE `ventas2`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ventas3`
+--
+ALTER TABLE `ventas3`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
