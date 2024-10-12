@@ -22,7 +22,7 @@ class IngresosResource(Resource, BaseSerializer):
     ingresos_parser = RequestParser()
     ingresos_parser.add_argument("id_user", type=int, required=False, help="This user field cannot be left blank!")
     ingresos_parser.add_argument("id_sucursal", type=str, required=False, help="This user field cannot be left blank!")
-    ingresos_parser.add_argument("venta", type=str, required=False, help="This password field cannot be left blank!")
+    ingresos_parser.add_argument("cantidad", type=str, required=False, help="This password field cannot be left blank!")
     ingresos_parser.add_argument("producto", type=str, required=False, help="This is_admin field cannot be left blank!")
     ingresos_parser.add_argument("semi_admin", type=str, required=False, help="This is_admin field cannot be left blank!")
     ingresos_parser.add_argument("remito", type=str, required=False, help="This is_admin field cannot be left blank!")
@@ -58,7 +58,7 @@ class IngresosResource(Resource, BaseSerializer):
             fecha_update = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
             data_insert["id_user"] = dato.id_user
             data_insert["id_sucursal"] = dato.id_sucursal
-            data_insert["venta"] = dato.venta
+            data_insert["cantidad"] = dato.cantidad
             data_insert["producto"] = dato.producto
             data_insert["semi_admin"] = dato.semi_admin
             data_insert["remito"] = dato.remito
