@@ -37,6 +37,10 @@ class UserModel(db.Model, BaseSerializer):
     def find_users_by_name(cls, user):
         return cls.query.filter_by(user=user).first()
 
+    @classmethod
+    def find_semiadmin_users(cls):
+        return cls.query.filter_by(rol=2).all()
+
 
 class ControlModel(db.Model, BaseSerializer):
     __tablename__ = 'control'
@@ -137,12 +141,13 @@ class IngresosModel(db.Model, BaseSerializer):
     __tablename__ = 'ingresos'
     __bind_key__ = 'maquiobrasdb'
 
-    fields = ['id', 'id_user', 'id_sucursal', 'cantidad', 'producto', 'semi_admin', 'remito', 'fecha']
+    fields = ['id', 'id_user', 'id_sucursal', 'cantidad', 'id_prod', 'producto', 'semi_admin', 'remito', 'fecha']
 
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     id_user = db.Column(db.Integer)
     id_sucursal = db.Column(db.String)
     cantidad = db.Column(db.Integer)
+    id_prod = db.Column(db.Integer)
     producto = db.Column(db.String)
     semi_admin = db.Column(db.String)
     remito = db.Column(db.String)
@@ -154,7 +159,7 @@ class IngresosModel(db.Model, BaseSerializer):
 
     @classmethod
     def find_all_ingresos_by_suc(cls, id):
-        return cls.query.filter_by(id=id).all()
+        return cls.query.filter_by(id_sucursal=id).all()
 
 
 class Ventas1Model(db.Model, BaseSerializer):
