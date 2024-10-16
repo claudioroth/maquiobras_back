@@ -56,7 +56,6 @@ class ControlModel(db.Model, BaseSerializer):
     local = db.Column(db.String)
     destino = db.Column(db.String)
 
-    # Deposito, Local Galicia, Local Juan B Justo
 
     @classmethod
     def find_all_control(cls):
