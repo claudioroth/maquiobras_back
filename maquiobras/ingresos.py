@@ -34,25 +34,17 @@ class IngresosResource(Resource, BaseSerializer):
     def get(self):
         """
         Ingresos Maquiobras, traemos todo
-        Cambiado x get all semi admins
         """
-        # data = IngresosModel.find_all_ingresos()
-        # lista = []
-        # if not data:
-        #     return {"message": "No hay ingresos para visualizar."}, 404
-        # else:
-        #     for i in data:
-        #         lista.append(i.serialize())
-        #     return lista, 
-        
-        dato = UserModel.find_semiadmin_users()
+        data = IngresosModel.find_all_ingresos()
         lista = []
-        if not dato:
-            return {"message": "No hay usuarios semi-admin para mostrar"}, 404
+        if not data:
+            return {"message": "No hay ingresos para visualizar."}, 404
         else:
-            for i in dato:
+            for i in data:
                 lista.append(i.serialize())
-            return lista, 200
+            return lista, 200 
+        
+       
 
 
 
@@ -148,5 +140,22 @@ class IngresoResource(Resource, BaseSerializer):
 
 
 
-api.add_resource(IngresosResource, '/api/ingresos')
-api.add_resource(IngresoResource,  '/api/ingreso/<string:id>')
+
+class SemiAdminResource(Resource, BaseSerializer):
+
+    def get(self):
+        dato = UserModel.find_semiadmin_users()
+        lista = []
+        if not dato:
+            return {"message": "No hay usuarios semi-admin para mostrar"}, 404
+        else:
+            for i in dato:
+                lista.append(i.serialize())
+            return lista, 200
+
+
+
+
+api.add_resource(IngresosResource,  '/api/ingresos')
+api.add_resource(IngresoResource,   '/api/ingreso/<string:id>')
+api.add_resource(SemiAdminResource, '/api/semiadmin')
