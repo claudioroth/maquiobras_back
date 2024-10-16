@@ -165,14 +165,12 @@ class Ventas1Model(db.Model, BaseSerializer):
     __tablename__ = 'ventas1'
     __bind_key__ = 'maquiobrasdb'
 
-    fields = ['id', 'id_user', 'id_sucursal', 'venta', 'producto', "id_prod", 'fecha']
+    fields = ['id', 'id_user', 'id_sucursal', 'ventas', 'fecha']
 
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     id_user = db.Column(db.Integer)
     id_sucursal = db.Column(db.String)
-    venta = db.Column(db.Integer)
-    producto = db.Column(db.String)
-    id_prod = db.Column(db.Integer)
+    ventas = db.Column(db.String)
     fecha = db.Column(db.DateTime)
 
     @classmethod

@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, jsonify
+from flask import Flask, Blueprint, jsonify, request
 from flask_restful.reqparse import RequestParser
 from flask_restful import Resource, Api
 
@@ -22,9 +22,8 @@ class Ventas1Resource(Resource, BaseSerializer):
     ventas1_parser = RequestParser()
     ventas1_parser.add_argument("id_user", type=int, required=False, help="This user field cannot be left blank!")
     ventas1_parser.add_argument("id_sucursal", type=str, required=False, help="This user field cannot be left blank!")
-    ventas1_parser.add_argument("venta", type=str, required=False, help="This password field cannot be left blank!")
-    ventas1_parser.add_argument("producto", type=str, required=False, help="This is_admin field cannot be left blank!")
-    ventas1_parser.add_argument("id_prod", type=str, required=False, help="This is_admin field cannot be left blank!")
+    ventas1_parser.add_argument("ventas", type=str, required=False, help="This password field cannot be left blank!")
+
     
     def get(self):
         """
@@ -32,52 +31,67 @@ class Ventas1Resource(Resource, BaseSerializer):
         """
         data = Ventas1Model.find_all_ventas1()
         lista = []
+        data_final = {}
+
         if not data:
             return {"message": "No hay ventas1 para visualizar."}, 404
         else:
             for i in data:
                 lista.append(i.serialize())
             return lista, 200
+            # for i in data:
+            #     print(i.serialize()["ventas"])
+            #     for ii in i.serialize()["ventas"]:
+            #         x = json.loads(ii)
+            #     break
+            #     print(x)
+        #return True    
+            
 
 
     def post(self):
         """
         Post de Ventas1 = Sucursal Galicia
         """
-        dato = self.ventas1_parser.parse_args()
-        #print(dato)
+
+        dato = json.loads(request.form.get('data'))
+        #print("dato: ", dato)
+        #print("ventas: ", dato["ventas"])
         data_insert = {}
-        stock_prod_suc1 = ProductsDetailModel.find_products_by_index(dato.id_prod)
-        #print(stock_prod_suc1.suc1)
+        
+
         if not dato:
             return {"message": "Datos incorrectos para registrar"}, 500
         else:
+            lista_ventas = []
             fecha_update = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            data_insert["id_user"] = dato.id_user
-            data_insert["id_sucursal"] = dato.id_sucursal
-            data_insert["venta"] = dato.venta
-            data_insert["producto"] = dato.producto
-            data_insert["id_prod"] = dato.id_prod
+            data_insert["id_user"] = dato["id_user"]
+            data_insert["id_sucursal"] = dato["id_sucursal"]
+            #data_insert["venta"] = dato.venta
             data_insert["fecha"] = fecha_update
             
-            #print(data_insert)
+            for i in dato["ventas"]:
+                lista_ventas.append(i)
+            
+            data_insert["ventas"] = json.dumps(lista_ventas, indent=4)
+            print(data_insert)
         
-        #return True
+        #return data_insert
             todosInsert = Ventas1Model(**data_insert)
             try:
                 db.session.add(todosInsert)
                 db.session.commit()
                 
-                try:
-                    cant_nueva = int(stock_prod_suc1.suc1) - int(dato.venta)
-                    new_stock =  int(stock_prod_suc1.stock) - int(dato.venta)
-                    db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato.id_prod).update(dict(suc1=cant_nueva, stock=new_stock))
-                    db.session.commit()
+            #     try:
+            #         cant_nueva = int(stock_prod_suc1.suc1) - int(dato.venta)
+            #         new_stock =  int(stock_prod_suc1.stock) - int(dato.venta)
+            #         db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato.id_prod).update(dict(suc1=cant_nueva, stock=new_stock))
+            #         db.session.commit()
                 
-                except Exception as ee:
-                    print(ee)
-                    traceback.print_exc(file=sys.stdout)
-                    return {"message": "An error occurred inserting product_detail cant_nueva."}, 500
+            #     except Exception as ee:
+            #         print(ee)
+            #         traceback.print_exc(file=sys.stdout)
+            #         return {"message": "An error occurred inserting product_detail cant_nueva."}, 500
 
                 return {"message": "ok"}, 200
 
