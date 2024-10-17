@@ -58,7 +58,6 @@ class Ventas1Resource(Resource, BaseSerializer):
         #print("dato: ", dato)
         #print("ventas: ", dato["ventas"])
         data_insert = {}
-        
 
         if not dato:
             return {"message": "Datos incorrectos para registrar"}, 500
@@ -73,25 +72,26 @@ class Ventas1Resource(Resource, BaseSerializer):
             for i in dato["ventas"]:
                 lista_ventas.append(i)
             
-            data_insert["ventas"] = json.dumps(lista_ventas, indent=4)
-            print(data_insert)
+            data_insert["ventas"] = json.dumps(lista_ventas)
         
-        #return data_insert
+
             todosInsert = Ventas1Model(**data_insert)
             try:
                 db.session.add(todosInsert)
                 db.session.commit()
                 
-            #     try:
-            #         cant_nueva = int(stock_prod_suc1.suc1) - int(dato.venta)
-            #         new_stock =  int(stock_prod_suc1.stock) - int(dato.venta)
-            #         db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato.id_prod).update(dict(suc1=cant_nueva, stock=new_stock))
-            #         db.session.commit()
+                try:
+                    for o in dato["ventas"]:
+                        stock_prod_suc1 = ProductsDetailModel.find_products_by_index(o["id_prod"])
+                        cant_nueva = int(stock_prod_suc1.suc1) - int(o["cantidad"])
+                        new_stock =  int(stock_prod_suc1.stock) - int(o["cantidad"])
+                        db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == o["id_prod"]).update(dict(suc1=cant_nueva, stock=new_stock))
+                        db.session.commit()
                 
-            #     except Exception as ee:
-            #         print(ee)
-            #         traceback.print_exc(file=sys.stdout)
-            #         return {"message": "An error occurred inserting product_detail cant_nueva."}, 500
+                except Exception as ee:
+                    print(ee)
+                    traceback.print_exc(file=sys.stdout)
+                    return {"message": "An error occurred inserting product_detail cant_nueva."}, 500
 
                 return {"message": "ok"}, 200
 
