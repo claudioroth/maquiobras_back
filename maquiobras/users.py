@@ -10,6 +10,7 @@ from sqlalchemy.ext import mutable
 import json
 from string import capwords
 from maquiobras.models import UserModel
+from maquiobras.models import Ventas1Model, Ventas2Model, Ventas3Model
 from datetime import datetime
 import traceback, sys
 
@@ -122,5 +123,32 @@ class UsersResource(Resource, BaseSerializer):
             
 
 
-api.add_resource(UsersResource, '/api/users')
 
+class VentasGetAll(Resource, BaseSerializer):
+    
+    def get(self):
+        """
+        Ventas Maquiobras, traemos todas las 3 Tablas de Ventas
+        """
+        ven1 = Ventas1Model.find_all_ventas1()
+        ven2 = Ventas2Model.find_all_ventas2()
+        ven3 = Ventas3Model.find_all_ventas3()
+
+        lista = []
+        
+        for i in ven1:
+            lista.append(i.serialize())
+
+        for ii in ven2:
+            lista.append(ii.serialize())
+        
+        for iii in ven3:
+            lista.append(iii.serialize())
+
+        return lista, 200
+
+
+
+
+api.add_resource(UsersResource, '/api/users')
+api.add_resource(VentasGetAll, '/api/ventas')
