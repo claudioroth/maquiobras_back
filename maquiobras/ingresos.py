@@ -127,7 +127,7 @@ class IngresoResource(Resource, BaseSerializer):
         """
         Ingreso Maquiobras, traemos todo
         """
-        print("id: ", id)
+        #print("id: ", id)
         data = IngresosModel.find_all_ingresos_by_suc(id=id)
         lista = []
         if not data:

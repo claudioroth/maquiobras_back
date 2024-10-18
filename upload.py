@@ -154,11 +154,50 @@ connection.execute(qry)
 
 
 
-#CREATE TABLE `ventas1` (
-#  `id` int(11) NOT NULL,
-#  `id_user` int(11) NOT NULL,
-#  `id_sucursal` text NOT NULL,
-#  `venta` int(11) NOT NULL,
-#  `producto` text NOT NULL,
-#  `fecha` datetime NOT NULL DEFAULT current_timestamp()
-#) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+# CREATE TABLE `ingresos` (
+#   `id` int(11) NOT NULL,
+#   `id_user` int(11) NOT NULL,
+#   `id_sucursal` text NOT NULL,
+#   `cantidad` int(11) NOT NULL,
+#   `id_prod` int(11) NOT NULL,
+#   `producto` text NOT NULL,
+#   `semi_admin` int(11) NOT NULL,
+#   `remito` text DEFAULT NULL,
+#   `fecha` datetime NOT NULL DEFAULT current_timestamp()
+# ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+
+# CREATE TABLE `ventas1` (
+#   `id` int(11) NOT NULL,
+#   `id_user` int(11) NOT NULL,
+#   `id_sucursal` text NOT NULL,
+#   `ventas` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+#   `fecha` datetime NOT NULL
+# ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+# CREATE TABLE `ventas2` (
+#   `id` int(11) NOT NULL,
+#   `id_user` int(11) NOT NULL,
+#   `id_sucursal` text NOT NULL,
+#   `ventas` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+#   `fecha` datetime NOT NULL
+# ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+# CREATE TABLE `ventas3` (
+#   `id` int(11) NOT NULL,
+#   `id_user` int(11) NOT NULL,
+#   `id_sucursal` text NOT NULL,
+#   `ventas` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+#   `fecha` datetime NOT NULL
+# ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+#ALTER TABLE `ventas2` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`);
+#ALTER TABLE `ventas3` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`);

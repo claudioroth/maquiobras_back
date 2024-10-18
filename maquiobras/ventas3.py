@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, jsonify
+from flask import Flask, Blueprint, jsonify, request
 from flask_restful.reqparse import RequestParser
 from flask_restful import Resource, Api
 
@@ -22,57 +22,71 @@ class Ventas3Resource(Resource, BaseSerializer):
     ventas3_parser = RequestParser()
     ventas3_parser.add_argument("id_user", type=int, required=False, help="This user field cannot be left blank!")
     ventas3_parser.add_argument("id_sucursal", type=str, required=False, help="This user field cannot be left blank!")
-    ventas3_parser.add_argument("venta", type=str, required=False, help="This password field cannot be left blank!")
-    ventas3_parser.add_argument("producto", type=str, required=False, help="This is_admin field cannot be left blank!")
-    ventas3_parser.add_argument("id_prod", type=str, required=False, help="This is_admin field cannot be left blank!")
+    ventas3_parser.add_argument("ventas", type=str, required=False, help="This password field cannot be left blank!")
+
     
     def get(self):
         """
-        Ventas1 Maquiobras, traemos todo
+        Ventas3 Maquiobras, traemos todo
         """
         data = Ventas3Model.find_all_ventas3()
         lista = []
+        data_final = {}
+
         if not data:
-            return {"message": "No hay ventas3 para visualizar."}, 404
+            return {"message": "No hay ventas1 para visualizar."}, 404
         else:
             for i in data:
                 lista.append(i.serialize())
             return lista, 200
+            # for i in data:
+            #     print(i.serialize()["ventas"])
+            #     for ii in i.serialize()["ventas"]:
+            #         x = json.loads(ii)
+            #     break
+            #     print(x)
+        #return True    
+            
 
 
     def post(self):
         """
-        Post de Ventas3 = Sucursal Deposito
+        Post de Ventas3 = Sucursal Galicia
         """
-        dato = self.ventas3_parser.parse_args()
-        #print(dato)
+
+        dato = json.loads(request.form.get('data'))
+        #print("dato: ", dato)
+        #print("ventas: ", dato["ventas"])
         data_insert = {}
-        stock_prod_depo = ProductsDetailModel.find_products_by_index(dato.id_prod)
-        #print(stock_prod_depo.depo)
+
         if not dato:
             return {"message": "Datos incorrectos para registrar"}, 500
         else:
+            lista_ventas = []
             fecha_update = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            data_insert["id_user"] = dato.id_user
-            data_insert["id_sucursal"] = dato.id_sucursal
-            data_insert["venta"] = dato.venta
-            data_insert["producto"] = dato.producto
-            data_insert["id_prod"] = dato.id_prod
+            data_insert["id_user"] = dato["id_user"]
+            data_insert["id_sucursal"] = dato["id_sucursal"]
+            #data_insert["venta"] = dato.venta
             data_insert["fecha"] = fecha_update
             
-            #print(data_insert)
+            for i in dato["ventas"]:
+                lista_ventas.append(i)
+            
+            data_insert["ventas"] = json.dumps(lista_ventas)
         
-        #return True
+
             todosInsert = Ventas3Model(**data_insert)
             try:
                 db.session.add(todosInsert)
                 db.session.commit()
                 
                 try:
-                    cant_nueva = int(stock_prod_depo.depo) - int(dato.venta)
-                    new_stock =  int(stock_prod_depo.stock) - int(dato.venta)
-                    db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == dato.id_prod).update(dict(depo=cant_nueva, stock=new_stock))
-                    db.session.commit()
+                    for o in dato["ventas"]:
+                        stock_prod_suc3 = ProductsDetailModel.find_products_by_index(o["id_prod"])
+                        cant_nueva = int(stock_prod_suc3.depo) - int(o["cantidad"])
+                        new_stock =  int(stock_prod_suc3.stock) - int(o["cantidad"])
+                        db.session.query(ProductsDetailModel).filter(ProductsDetailModel.index == o["id_prod"]).update(dict(depo=cant_nueva, stock=new_stock))
+                        db.session.commit()
                 
                 except Exception as ee:
                     print(ee)
