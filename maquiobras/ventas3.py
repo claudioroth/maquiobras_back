@@ -34,7 +34,8 @@ class Ventas3Resource(Resource, BaseSerializer):
         data_final = {}
 
         if not data:
-            return {"message": "No hay ventas1 para visualizar."}, 404
+            #return {"message": "No hay ventas1 para visualizar."}, 404
+            return lista, 200
         else:
             for i in data:
                 lista.append(i.serialize())
@@ -58,9 +59,11 @@ class Ventas3Resource(Resource, BaseSerializer):
         #print("dato: ", dato)
         #print("ventas: ", dato["ventas"])
         data_insert = {}
+        lista = []
 
         if not dato:
-            return {"message": "Datos incorrectos para registrar"}, 500
+            #return {"message": "Datos incorrectos para registrar"}, 500
+            return lista, 200
         else:
             lista_ventas = []
             fecha_update = datetime.today().strftime('%Y-%m-%d %H:%M:%S')

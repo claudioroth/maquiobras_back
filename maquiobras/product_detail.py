@@ -45,7 +45,8 @@ class ProductDetailResource(Resource, BaseSerializer):
         data = ProductsDetailModel.find_all_products_detail()
         lista = []
         if not data:
-            return {"message": "No hay productos para visualizar."}, 404
+            #return {"message": "No hay productos para visualizar."}, 404
+            return lista, 200
         else:
             for i in data:
                 lista.append(i.serialize())
@@ -59,8 +60,11 @@ class ProductDetailResource(Resource, BaseSerializer):
         dato = self.prod_parser.parse_args()
         #print(dato)
         data_insert = {}
+        lista = []
+
         if not dato:
-            return {"message": "Datos incorrectos para registrar"}, 500
+            #return {"message": "Datos incorrectos para registrar"}, 500
+            return lista, 200
         else:
             data_insert["nro"] = dato["nro"]
             data_insert["descripcion"] = dato["descripcion"]
@@ -98,9 +102,11 @@ class ProductDetailResource(Resource, BaseSerializer):
         #print(dato)
         get_product = ProductsDetailModel.find_products_by_index(dato.index)
         #print("get_product: ", get_product.serialize())
+        lista = []
 
         if not get_product.index:
-            return {"message": "Invalid product index '{}'".format(dato.index)}, 400
+            #return {"message": "Invalid product index '{}'".format(dato.index)}, 400
+            return lista, 200
         else:
             try:
                 newDatos={}

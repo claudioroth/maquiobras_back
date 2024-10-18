@@ -34,7 +34,8 @@ class UsersResource(Resource, BaseSerializer):
         data = UserModel.find_all_users()
         lista = []
         if not data:
-            return {"message": "No hay usuarios para visualizar."}, 404
+            #return {"message": "No hay usuarios para visualizar."}, 404
+            return lista, 200
         else:
             for i in data:
                 lista.append(i.serialize())
@@ -49,8 +50,11 @@ class UsersResource(Resource, BaseSerializer):
         #print(dato.user)
         busco_user = UserModel.find_users_by_name(dato.user)
         #print(busco_user)
+        lista = []
+
         if busco_user is not None:
-            return {'error': "Este usuario '{}' ya existe.".format(dato.user)}, 400
+            #return {'error': "Este usuario '{}' ya existe.".format(dato.user)}, 400
+            return lista, 200
         else:
             try:
                 fecha_update = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
@@ -76,9 +80,11 @@ class UsersResource(Resource, BaseSerializer):
         """
         dato = self.users_parser.parse_args()
         get_user = UserModel.find_users_by_id(dato.id)
+        lista = []
 
         if not get_user.id :
-            return {"message": "Invalid user id '{}'".format(dato.id)}, 400
+            #return {"message": "Invalid user id '{}'".format(dato.id)}, 400
+            return lista, 200
         else:
             try:
                 newDatos={}
@@ -107,9 +113,11 @@ class UsersResource(Resource, BaseSerializer):
         """
         dato = self.users_parser.parse_args()
         get_user = UserModel.find_users_by_id(dato.id)
+        lista = []
 
         if not get_user:
-            return {"message": "Invalid user id '{}'".format(dato.id)}, 400
+            #return {"message": "Invalid user id '{}'".format(dato.id)}, 400
+            return lista, 200
         else:
             try:
                 db.session.delete(get_user)

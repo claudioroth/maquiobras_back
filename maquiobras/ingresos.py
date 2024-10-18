@@ -131,7 +131,8 @@ class IngresoResource(Resource, BaseSerializer):
         data = IngresosModel.find_all_ingresos_by_suc(id=id)
         lista = []
         if not data:
-            return {"message": "No hay ingresos para visualizar."}, 404
+            #return {"message": "No hay ingresos para visualizar."}, 404
+            return lista, 200
         else:
             for i in data:
                 lista.append(i.serialize())
@@ -147,7 +148,8 @@ class SemiAdminResource(Resource, BaseSerializer):
         dato = UserModel.find_semiadmin_users()
         lista = []
         if not dato:
-            return {"message": "No hay usuarios semi-admin para mostrar"}, 404
+            #return {"message": "No hay usuarios semi-admin para mostrar"}, 404
+            return lista, 200
         else:
             for i in dato:
                 lista.append(i.serialize())
