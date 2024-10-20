@@ -225,9 +225,11 @@ class ProductDetailResources(Resource, BaseSerializer):
         #print(dato)
         get_product = ProductsDetailModel.find_products_by_index(index)
         #print("get_product: ", get_product.serialize())
+        lista = []
 
         if not get_product.index:
-            return {"message": "Invalid product index '{}'".format(index)}, 400
+            #return {"message": "Invalid product index '{}'".format(index)}, 400
+            return lista, 200
         else:
             try:
                 newDatos={}
