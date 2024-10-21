@@ -38,7 +38,8 @@ class IngresosResource(Resource, BaseSerializer):
         data = IngresosModel.find_all_ingresos()
         lista = []
         if not data:
-            return {"message": "No hay ingresos para visualizar."}, 404
+            #return {"message": "No hay ingresos para visualizar."}, 404
+            return lista, 200
         else:
             for i in data:
                 lista.append(i.serialize())
