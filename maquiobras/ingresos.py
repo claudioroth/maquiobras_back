@@ -56,8 +56,10 @@ class IngresosResource(Resource, BaseSerializer):
         dato = self.ingresos_parser.parse_args()
         #print(dato)
         data_insert = {}
+        lista = []
         if not dato:
-            return {"message": "Datos incorrectos para registrar"}, 500
+            # return {"message": "Datos incorrectos para registrar"}, 500
+            return lista, 200
         else:
             fecha_update = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
             data_insert["id_user"] = dato.id_user

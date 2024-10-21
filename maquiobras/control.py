@@ -36,7 +36,8 @@ class ControlResource(Resource, BaseSerializer):
         lista = []
 
         if not data:
-            return {"message": "No hay data para mostrar."}, 404
+            # return {"message": "No hay data para mostrar."}, 404
+            return lista, 200
         else:
             for i in data:
                 #print("i: ", i.serialize())
@@ -200,15 +201,14 @@ class ControlMixResourses(Resource, BaseSerializer):
         #print(get_tools_by_suc)
         lista=[]
 
-        if get_tools_by_suc:
+        if not get_tools_by_suc:
+            return lista, 200
+        else:
             for i in get_tools_by_suc:
                 #print("i: ", i.serialize())
                 lista.append(i.serialize())
 
-            return lista
-        else:
-            return {}
-
+            return lista, 200
         
 
 
