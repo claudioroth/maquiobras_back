@@ -201,3 +201,7 @@ connection.execute(qry)
 
 #ALTER TABLE `ventas2` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`);
 #ALTER TABLE `ventas3` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`);
+
+
+#UPDATE `product_detail` SET `AUMENTO`= NULL;
+#UPDATE `product_detail` SET `ULT.MODIF.`= NULL;
