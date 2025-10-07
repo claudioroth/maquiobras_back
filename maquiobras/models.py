@@ -1,6 +1,6 @@
 from maquiobras.exts import db
 from maquiobras.helpers import BaseSerializer
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, desc
 from sqlalchemy.ext import mutable
 #from sqlalchemy_filters import apply_pagination
 import json
@@ -180,7 +180,7 @@ class Ventas1Model(db.Model, BaseSerializer):
 
     @classmethod
     def find_all_ventas1(cls):
-        return cls.query.all()
+        return cls.query.order_by(Ventas1Model.id.desc()).all()
 
 
 class Ventas2Model(db.Model, BaseSerializer):
@@ -197,7 +197,7 @@ class Ventas2Model(db.Model, BaseSerializer):
 
     @classmethod
     def find_all_ventas2(cls):
-        return cls.query.all()
+        return cls.query.order_by(Ventas2Model.id.desc()).all()
 
 
 class Ventas3Model(db.Model, BaseSerializer):
@@ -214,4 +214,5 @@ class Ventas3Model(db.Model, BaseSerializer):
 
     @classmethod
     def find_all_ventas3(cls):
-        return cls.query.all()
+        #return cls.query.all()
+        return cls.query.order_by(Ventas3Model.id.desc()).all()
