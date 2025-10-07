@@ -68,16 +68,21 @@ class ProvedorModel(db.Model, BaseSerializer):
     __tablename__ = 'provedor'
     __bind_key__ = 'maquiobrasdb'
 
-    fields = ['id', 'prov_id', 'nombre']
+    fields = ['id', 'prov_id', 'nombre', 'fecha']
 
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     prov_id = db.Column(db.Integer)
     nombre = db.Column(db.String)
+    fecha = db.Column(db.String)
 
     @classmethod
     def find_all_prov(cls):
         return cls.query.all()
     
+    @classmethod
+    def find_prov_by_id(cls, prov_id):
+        return cls.query.filter_by(prov_id=prov_id).first()
+
 
 class ProductsDetailModel(db.Model, BaseSerializer):
     __tablename__ = 'product_detail'

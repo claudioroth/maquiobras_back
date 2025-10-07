@@ -205,3 +205,5 @@ connection.execute(qry)
 
 #UPDATE `product_detail` SET `AUMENTO`= NULL;
 #UPDATE `product_detail` SET `ULT.MODIF.`= NULL;
+
+#ALTER TABLE `provedor` ADD `fecha` DATETIME NULL AFTER `nombre`;
