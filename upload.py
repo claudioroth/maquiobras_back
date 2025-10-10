@@ -207,3 +207,8 @@ connection.execute(qry)
 #UPDATE `product_detail` SET `ULT.MODIF.`= NULL;
 
 #ALTER TABLE `provedor` ADD `fecha` DATETIME NULL AFTER `nombre`;
+#UPDATE provedor SET fecha='2025-10-07 15:14:42';
+#ALTER TABLE `ingresos` CHANGE `producto` `producto` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+#UPDATE `users` SET `sucursal`='suc1' WHERE `sucursal` is NULL;
+
+#DROP TABLE ingresos;

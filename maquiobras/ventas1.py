@@ -56,8 +56,8 @@ class Ventas1Resource(Resource, BaseSerializer):
         """
 
         dato = json.loads(request.form.get('data'))
-        #print("dato: ", dato)
-        #print("ventas: ", dato["ventas"])
+        print("dato: ", dato)
+        print("ventas: ", dato["ventas"])
         data_insert = {}
         lista = []
 
@@ -109,3 +109,8 @@ class Ventas1Resource(Resource, BaseSerializer):
 
 
 api.add_resource(Ventas1Resource, '/api/ventas1')
+
+
+
+
+#"ventas": [{"id_prod": 18, "producto": "ADIABATIC EC2000NEW_TG", "cantidad": 1, "stock_inicial": 31}]

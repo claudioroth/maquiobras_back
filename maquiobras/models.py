@@ -145,14 +145,14 @@ class IngresosModel(db.Model, BaseSerializer):
     __tablename__ = 'ingresos'
     __bind_key__ = 'maquiobrasdb'
 
-    fields = ['id', 'id_user', 'id_sucursal', 'cantidad', 'id_prod', 'producto', 'semi_admin', 'remito', 'fecha']
+    fields = ['id', 'id_user', 'id_sucursal', 'productos', 'semi_admin', 'remito', 'fecha']
 
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     id_user = db.Column(db.Integer)
     id_sucursal = db.Column(db.String)
-    cantidad = db.Column(db.Integer)
-    id_prod = db.Column(db.Integer)
-    producto = db.Column(db.String)
+    #cantidad = db.Column(db.Integer)
+    #id_prod = db.Column(db.Integer)
+    productos = db.Column(db.String)
     semi_admin = db.Column(db.String)
     remito = db.Column(db.String)
     fecha = db.Column(db.DateTime)
