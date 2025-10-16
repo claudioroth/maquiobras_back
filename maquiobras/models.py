@@ -114,6 +114,10 @@ class ProductsDetailModel(db.Model, BaseSerializer):
     @classmethod
     def find_all_products_detail(cls):
         return cls.query.all()
+
+    @classmethod
+    def find_all_products_by_order(cls):
+        return cls.query.order_by(ProductsDetailModel.index.desc()).all()
     
     @classmethod
     def find_all_productos_with_stock(cls):

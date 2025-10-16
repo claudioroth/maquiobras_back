@@ -212,3 +212,4 @@ connection.execute(qry)
 #UPDATE `users` SET `sucursal`='suc1' WHERE `sucursal` is NULL;
 
 #DROP TABLE ingresos;
+#UPDATE `product_detail` SET `C/IVA 10.5%`= 0

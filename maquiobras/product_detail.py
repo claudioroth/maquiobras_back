@@ -43,6 +43,7 @@ class ProductDetailResource(Resource, BaseSerializer):
         Productos Maquiobras, get all
         """
         data = ProductsDetailModel.find_all_products_detail()
+        #data = ProductsDetailModel.find_all_products_by_order()
         lista = []
         if not data:
             #return {"message": "No hay productos para visualizar."}, 404
@@ -73,7 +74,7 @@ class ProductDetailResource(Resource, BaseSerializer):
             data_insert["iva_10"] = dato.iva_10
             data_insert["oferta_sin_iva"] = dato.oferta_sin_iva
             data_insert["aumento"] = dato.aumento
-            data_insert["ultimo_modif"] = dato.ultimo_modif
+            data_insert["ultimo_modif"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
             data_insert["oferta_costo"] = dato.oferta_costo
             data_insert["costo_mas_bajo"] = dato.costo_mas_bajo
             data_insert["rentabilidad"] = dato.rentabilidad
@@ -118,7 +119,7 @@ class ProductDetailResource(Resource, BaseSerializer):
                 newDatos["iva_10"] = dato.iva_10
                 newDatos["oferta_sin_iva"] = dato.oferta_sin_iva
                 newDatos["aumento"] = dato.aumento
-                newDatos["ultimo_modif"] = dato.ultimo_modif
+                newDatos["ultimo_modif"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
                 newDatos["oferta_costo"] = dato.oferta_costo
                 newDatos["costo_mas_bajo"] = dato.costo_mas_bajo
                 newDatos["rentabilidad"] = dato.rentabilidad
@@ -241,7 +242,7 @@ class ProductDetailResources(Resource, BaseSerializer):
                 newDatos["iva_10"] = dato.iva_10
                 newDatos["oferta_sin_iva"] = dato.oferta_sin_iva
                 newDatos["aumento"] = dato.aumento
-                newDatos["ultimo_modif"] = dato.ultimo_modif
+                newDatos["ultimo_modif"] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
                 newDatos["oferta_costo"] = dato.oferta_costo
                 newDatos["costo_mas_bajo"] = dato.costo_mas_bajo
                 newDatos["rentabilidad"] = dato.rentabilidad
