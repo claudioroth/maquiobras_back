@@ -43,3 +43,6 @@ ABM PRODUCTOS
 - En el formulario de Nuevo Producto, se agrego un selector de IVA (%21 y %10.5)
 - El campo de Importe sin IVA ahora es obligatorio y se calcula el Iva de acuerdo a lo que se elija en el selector.
 - El campo Oferta sin IVA ahora se calculo multiplicando los campos Oferta Costo x Rentabilidad.
+- Fecha de Ultima Modificacion se quito del formulario y se ingresa directamente al Modificar Producto
+- Fecha Aumento va de forma manual ingresando si gustan en que fecha fue el ultimo aumento que el proveedor informo
+- Fecha de Ultima Modificacion se muestra con hora y minutos en el Stock para saber exactamente cuando se modifico.
