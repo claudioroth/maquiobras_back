@@ -212,6 +212,49 @@ class ControlMixResourses(Resource, BaseSerializer):
         
 
 
+class ControlGetAll(Resource, BaseSerializer):
+    
+    
+
+    def get(self):
+        #dato = self.controlmix_parser.parse_args()
+        #print(dato)
+        get_user = UserModel.find_all_active_users()
+        get_product_detail = ProductsDetailModel.find_all_products_by_alphabetic_order()
+
+        data = {}
+        lista = []
+        lista_users = []
+
+        
+        for ii in get_user:
+            user_interno = {}
+            user_interno["id"] = ii.serialize()["id"]
+            user_interno["user"] = ii.serialize()["user"]
+            lista_users.append(user_interno)
+        
+        data["user"] = lista_users
+
+        for i in get_product_detail:
+            lista_interno = {}
+            #print("i: ", i.serialize())
+            lista_interno["index"] = i.serialize()["index"]
+            lista_interno["nro"] = i.serialize()["nro"]
+            lista_interno["descripcion"] = i.serialize()["descripcion"]
+            lista_interno["stock"] = i.serialize()["stock"]
+            lista_interno["suc1"] = i.serialize()["suc1"]
+            lista_interno["suc2"] = i.serialize()["suc2"]
+            lista_interno["depo"] = i.serialize()["depo"]
+            lista.append(lista_interno)
+            
+
+        data["productos"] = lista
+
+        return data
+
+
+
 api.add_resource(ControlResource,     '/api/control')
 api.add_resource(ControlMixResourse,  '/api/controlmix')
 api.add_resource(ControlMixResourses, '/api/controlmix/<string:suc>')
+api.add_resource(ControlGetAll,       '/api/allproducts')
