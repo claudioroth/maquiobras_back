@@ -208,8 +208,20 @@ connection.execute(qry)
 
 #ALTER TABLE `provedor` ADD `fecha` DATETIME NULL AFTER `nombre`;
 #UPDATE provedor SET fecha='2025-10-07 15:14:42';
+
+#DROP TABLE ingresos;
+#CREATE TABLE `ingresos` (
+#  `id` int(11) NOT NULL,
+#  `id_user` int(11) DEFAULT NULL,
+#  `id_sucursal` text NOT NULL,
+#  `productos` longtext NOT NULL,
+#  `semi_admin` int(11) DEFAULT NULL,
+#  `remito` text NOT NULL,
+#  `fecha` datetime DEFAULT current_timestamp()
+#) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 #ALTER TABLE `ingresos` CHANGE `producto` `producto` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 #UPDATE `users` SET `sucursal`='suc1' WHERE `sucursal` is NULL;
 
-#DROP TABLE ingresos;
+
 #UPDATE `product_detail` SET `C/IVA 10.5%`= 0
