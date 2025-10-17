@@ -42,8 +42,8 @@ class ProductDetailResource(Resource, BaseSerializer):
         """
         Productos Maquiobras, get all
         """
-        data = ProductsDetailModel.find_all_products_detail()
-        #data = ProductsDetailModel.find_all_products_by_order()
+        #data = ProductsDetailModel.find_all_products_detail()
+        data = ProductsDetailModel.find_all_products_by_alphabetic_order()
         lista = []
         if not data:
             #return {"message": "No hay productos para visualizar."}, 404
