@@ -56,8 +56,8 @@ class Ventas1Resource(Resource, BaseSerializer):
         """
 
         dato = json.loads(request.form.get('data'))
-        print("dato: ", dato)
-        print("ventas: ", dato["ventas"])
+        #print("dato: ", dato)
+        #print("ventas: ", dato["ventas"])
         data_insert = {}
         lista = []
 

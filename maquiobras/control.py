@@ -65,7 +65,7 @@ class ControlResource(Resource, BaseSerializer):
         """
         dato = self.control_parser.parse_args()
         #print("retiro: ", dato["retiro"])
-        print("dato: ", dato)
+        #print("dato: ", dato)
         dato_producto = ProductsDetailModel.find_products_by_index(dato.id_prod)
         #print("stock: ", dato_producto.stock)
         #print(dato_producto.serialize())
